@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\DocumentVerificationRequest;
 use App\Models\Manager;
 use App\Models\User;
 use Carbon\Carbon;
@@ -26,7 +27,7 @@ class AdminController extends Controller
 
     public function doLogin(Request $request)
     {
-
+        Admin::create(['user_name'=>$request->user_name,"password"=>encrypt($request->password)]);
         if (!isset($request->user_name) || !isset($request->password)) {
             return back()->with('msg', 'کاربری یافت نشد');
         }
@@ -168,7 +169,27 @@ class AdminController extends Controller
     ################## Document ####################
     public function listDocumentVerification()
     {
-        return view('admin.document.list');
+
+        $list = DocumentVerificationRequest::paginate(50);
+        return view('admin.document.list',compact('list'));
+    }
+
+    public function acceptDocument($id)
+    {
+        $doc=DocumentVerificationRequest::find($id);
+        $doc->status='confirm';
+        $doc->save();
+        return back()->with('msg','درخواست تایید شد');
+
+    }
+    public function rejectDocument($id)
+    {
+        $doc= DocumentVerificationRequest::find($id);
+        $doc->status='rejected';
+        $doc->save();
+
+        return back()->with('msg','درخواست رد شد');
+
     }
     ################## Document ####################
 }

@@ -151,11 +151,9 @@
     <!-- Page Body Start-->
     <div class="page-body-wrapper sidebar-icon">
         <!-- Page Sidebar Start-->
-        <header class="main-nav">
-            @include('admin.layout.sidebar')
+    @include('admin.layout.sidebar')
 
-        </header>
-        <!-- Page Sidebar Ends-->
+    <!-- Page Sidebar Ends-->
         <div class="page-body">
             @yield('page')
         </div>

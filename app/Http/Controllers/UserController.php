@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\DocumentVerificationRequest;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -129,19 +130,51 @@ class UserController extends Controller
                 $user->last_sms_code = Carbon::now();
                 $user->save();
                 sendSms($user->mobile_number, $user->sms_code, 'register_sms_key');
-                return view('user.auth.verify_mobile', compact(['user_id' => $user->id, 'mobile' => $user->mobile_number, 'uuid']))->with('msg', 'کد وارد شده منقضی شده است');
+                $user_id = $user->id;
+                $mobile = $user->mobile_number;
+                return view('user.auth.verify_mobile', compact(['user_id', 'mobile', 'uuid']))->with('msg', 'کد وارد شده منقضی شده است');
 
             }
             $user->mobile_verified = true;
             $user->save();
             return redirect('user/dashboard');
         } else {
-            return view('user.auth.verify_mobile', ['user_id' => $user->id, 'mobile' => $user->mobile_number, 'uuid'=>$uuid])
+            return view('user.auth.verify_mobile', ['user_id' => $user->id, 'mobile' => $user->mobile_number, 'uuid' => $uuid])
                 ->with('msg', 'کد وارد شده صحیح نمی باشد');
         }
 
     }
 
+    public function showEmailVerification()
+    {
+        return view('user.auth.verify_email');
+    }
+
+    public function verifyEmailAddress(Request $request)
+    {
+        global $User;
+        $user = User::find($User->id);
+        if (!isset($request->code)) {
+            return back()->with('msg', "کد را وارد کنید");
+        }
+        if ($user->sms_code == $request->code) {
+            $user->email_verified = true;
+            $user->status = 'review_document';
+            $user->save();
+            DocumentVerificationRequest::create(["user_id" => $user->id, "type" => "national_card", "file" => $user->national_card]);
+            return redirect()->route('user.dashboard')->with('msg', 'حساب شما پس از تایید مدارک توسط کارشناسان فعال خواهد شد');
+        }
+        else{
+            return  back()->with('msg','کد وارد شده صحیح نمی باشد');
+        }
+
+
+    }
+
+    public function showProfile()
+    {
+        return view('user.profile.profile');
+    }
     public function logout(Request $request)
     {
         $request->session()->forget('Admin');
@@ -151,6 +184,7 @@ class UserController extends Controller
     #################### User ####################
 
     ################# Dashboard ################
+
     public function loadDashboard()
     {
 
@@ -161,5 +195,44 @@ class UserController extends Controller
 
         return view('user.dashboard', ['user' => $User]);
     }
+    ################# Dashboard ################
+
+    ################# User ################
+    public function completeProfileInfo()
+    {
+        return view('user.profile.fill_info');
+    }
+
+    public function submitInformation(Request $request)
+    {
+        if (!isset($request->name) || !isset($request->last_name) || !isset($request->national_id)) {
+            return back()->with('msg', 'اطلاعات وارد شده اشتباه است');
+        }
+        if ($request->national_card_file != null) {
+            $imageName = time() . Str::random(5) . '.' . $request->national_card_file->extension();
+            $request->national_card_file->move(public_path('uploads/verification'), $imageName);
+            $request->request->add(['national_card' => "uploads/verification/" . $imageName]);
+        }
+        $request->request->add(['status' => "email_verification"]);
+        $request->request->add(['sms_code' => rand(123456, 999999)]);
+        global $User;
+        $user = $User;
+        $user->update($request->except('_token'));
+        return redirect()->route('user.email_verification')->with('msg', 'ایمیل خود را تایید کنید');
+
+
+    }
+
+    ################# User ################
+    ################# Document Review Requests ################
+    public function listRequests()
+    {
+     global $User;
+        $list = DocumentVerificationRequest::where('user_id',$User->id)->paginate(50);
+        return view('user.requests.list', compact('list'));
+    }
+    ################# Document Review Requests ################
+
+
 }
 

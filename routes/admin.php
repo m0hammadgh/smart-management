@@ -52,6 +52,8 @@ Route::group(['middleware' => 'admin'], function () {
     ######## Document  ########
     Route::group(['prefix' => 'document'], function () {
         Route::get('', [AdminController::class, 'listDocumentVerification'])->name('document.list');
+        Route::get('/accept/{id}', [AdminController::class, 'acceptDocument'])->name('document.accept');
+        Route::get('/reject/{id}', [AdminController::class, 'rejectDocument'])->name('document.reject');
 
 
     });

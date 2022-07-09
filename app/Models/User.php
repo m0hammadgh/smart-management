@@ -26,6 +26,7 @@ class User extends Authenticatable
         'last_sms_code',
         'user_name',
         'picture',
+        'national_id',
         'sms_code',
         'national_card',
         'invite_code',

@@ -1,608 +1,246 @@
-<html lang="en">
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.rtlcss.com/bootstrap/v4.5.3/css/bootstrap.min.css" integrity="sha384-JvExCACAZcHNJEc7156QaHXTnQL3hQBixvj5RV5buE7vgnNEzzskDtx9NQ4p6BJe" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/assets/user/css/style.css">
-    <link rel="stylesheet/less" type="text/css" href="/assets/user/css/styles.less" />
-    <script src="/assets/user/js/less.js" type="text/javascript"></script>
-    <title>True Impact Partners</title>
-</head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description"
+          content="viho admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities."/>
+    <meta name="keywords"
+          content="admin template, viho admin template, dashboard template, flat admin template, responsive admin template, web app"/>
+    <meta name="author" content="pixelstrap"/>
+    <link rel="icon" href="/assets/mirror/images/favicon.png" type="image/x-icon"/>
+    <link rel="shortcut icon" href="/assets/mirror/images/favicon.png" type="image/x-icon"/>
+    <title>پنل کاربری - @yield('title')</title>
+    <!-- Google font-->
+    <link rel="preconnect" href="https://fonts.gstatic.com/"/>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
+        rel="stylesheet"/>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&amp;display=swap"
+        rel="stylesheet"/>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
+        rel="stylesheet"/>
+    <!-- Font Awesome-->
 
-<body>
-<div class="wrapper">
-    <aside class="main-sidebar pad-15">
-        <div class="user-info">
-            <a href="#">
-                <i class="fa fa-wrench"></i>
-            </a>
-            <div class="clearfix"></div>
-            <div class="user-image mb-4">
-                <img src="/assets/user/images/65-658471_happy-man-happy-man-face-png.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css" integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="/assets/mirror/css/fontawesome.css"/>
+    <!-- ico-font-->
+    <link rel="stylesheet" type="text/css" href="/assets/mirror/css/icofont.css"/>
+    <!-- Themify icon-->
+    <link rel="stylesheet" type="text/css" href="/assets/mirror/css/themify.css"/>
+    <!-- Flag icon-->
+    <link rel="stylesheet" type="text/css" href="/assets/mirror/css/flag-icon.css"/>
+    <!-- Feather icon-->
+    <link rel="stylesheet" type="text/css" href="/assets/mirror/css/feather-icon.css"/>
+    <!-- Plugins css start-->
+    <link rel="stylesheet" type="text/css" href="/assets/mirror/css/select2.css"/>
+    <link rel="stylesheet" type="text/css" href="/assets/mirror/css/dropzone.css"/>
+    <!-- Plugins css Ends-->
+    <!-- Bootstrap css-->
+    <link rel="stylesheet" type="text/css" href="/assets/mirror/css/bootstrap.css"/>
+    <!-- App css-->
+    <link rel="stylesheet" type="text/css" href="/assets/mirror/css/style.css"/>
+    <link id="color" rel="stylesheet" href="/assets/mirror/css/color-1.css" media="screen"/>
+    <!-- Responsive css-->
+    <link rel="stylesheet" type="text/css" href="/assets/mirror/css/responsive.css"/>
+</head>
+<body class="rtl">
+<!-- Loader starts-->
+<div class="loader-wrapper">
+    <div class="theme-loader">
+        <div class="loader-p"></div>
+    </div>
+</div>
+<!-- Loader ends-->
+<!-- page-wrapper Start-->
+<div class="page-wrapper" id="pageWrapper">
+    <!-- Page Header Start-->
+    <div class="page-main-header">
+        <div class="main-header-right row m-0">
+            <div class="main-header-left">
+
+                <div class="logo-wrapper">
+                    <a href="index.html"><img class="img-fluid" src="/assets/user/images/logo.png" alt=""/></a>
+                </div>
+                <div class="dark-logo-wrapper">
+                    <a href="index.html"><img class="img-fluid" src="/assets/mirror/images/logo/dark-logo.png" alt=""/></a>
+                </div>
+                <div class="toggle-sidebar"><i class="status_toggle middle" data-feather="align-center"
+                                               id="sidebar-toggle"></i></div>
             </div>
-            <span class="user-name">صمد سپهری</span>
-            <span class="account-type">حساب نقره ای</span>
-            <div class="extra-info">
+            <div class="left-menu-header col">
                 <ul>
                     <li>
-                        <p>رزو باقیمانده</p>
-                        <span>18</span>
-                    </li>
-                    <li>
-                        <p>سود شما</p>
-                        <span>70%</span>
-                    </li>
-                    <li>
-                        <p>سود سایت</p>
-                        <span>30%</span>
+                        <form class="form-inline search-form">
+                            <div class="search-bg">
+                            </div>
+                        </form>
+                        <span class="d-sm-none mobile-search search-bg"><i class="fa fa-search"></i></span>
                     </li>
                 </ul>
             </div>
-        </div>
-        <nav class="sidebar-nav nav flex-column pr-4 pl-4 mt-3">
-            <ul class="navbar-nav nav">
-                <li class="nav-item active">
-                    <a href="#" class="nav-link">
-                        <i class="fa fa-home" aria-hidden="true"></i>پیشخوان
-                    </a>
-                </li>
-                <li class="nav-item ">
-                    <a href="#" class="nav-link " href="#">
-                        <i class="fa fa-at" aria-hidden="true"></i>اطلاعات حساب کاربری
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fa fa-robot " aria-hidden="true"></i>ربات
-                    </a>
-                </li>
-                <li class="nav-item ">
-                    <a href="#" class="nav-link" href="#">
-                        <i class="fa fa-money-bill" aria-hidden="true"></i>حسابداری
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fa fa-money-bill-wave " aria-hidden="true"></i>کار بانکی
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fa fa-user-plus " aria-hidden="true"></i>طرح عضویت
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fa fa-headset " aria-hidden="true"></i>پشتیبانی
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{route('user.logout')}}" class="nav-link">
-                        <i class="fa fa-arrow-right-from-bracket " aria-hidden="true"></i>خروج
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </aside>
-    <div class="inner-content">
-        <div class="container-fluid">
-            <div class="top-bar feature-box">
+            <div class="nav-right col pull-right right-menu p-0">
+                <ul class="nav-menus">
 
-                <div class="row">
-                    <div class="col-lg-6 col-sm-12">
-                        <div class="breadcrumb">
 
-                            <span><i class="fa fa-home"></i>پیشخوان</span>
+                    <li class="onhover-dropdown">
+                        <div class="notification-box"><i data-feather="bell"></i><span class="dot-animated"></span>
                         </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-12">
-
-                        <div class="logo-box fa-pull-left">
-                            <img src="/assets/user/images/logo.png">
-                        </div>
-                        <div class="notif-box fa-pull-left">
-                            <a href="#">
-                                <i class="fa fa-search"></i>
-                            </a>
-                            <a href="#">
-                                <i class="far fa-bell"><strong class="tool-tip">14</strong></i>
-
-                            </a>
-
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
+                        <ul class="notification-dropdown onhover-show-div">
+                            <li>
+                                <p class="f-w-700 mb-0 iran-yekan-font">شما 0 اعلان دارید <span
+                                        class="pull-right badge badge-primary badge-pill">0</span></p>
+                            </li>
+                            {{-- <li class="noti-primary">
+                                 <div class="media">
+                                     <span class="notification-bg bg-light-primary"><i
+                                             data-feather="activity"> </i></span>
+                                     <div class="media-body">
+                                         <p>پردازش تحویل</p>
+                                         <span>10 دقیقه ی قبل</span>
+                                     </div>
+                                 </div>
+                             </li>
+                             <li class="noti-secondary">
+                                 <div class="media">
+                                     <span class="notification-bg bg-light-secondary"><i
+                                             data-feather="check-circle"> </i></span>
+                                     <div class="media-body">
+                                         <p>سفارش کامل شد</p>
+                                         <span>1 ساعت پیش</span>
+                                     </div>
+                                 </div>
+                             </li>
+                             <li class="noti-success">
+                                 <div class="media">
+                                     <span class="notification-bg bg-light-success"><i
+                                             data-feather="file-text"> </i></span>
+                                     <div class="media-body">
+                                         <p>بلیط های تولید شده</p>
+                                         <span>3 ساعت پیش</span>
+                                     </div>
+                                 </div>
+                             </li>
+                             <li class="noti-danger">
+                                 <div class="media">
+                                     <span class="notification-bg bg-light-danger"><i
+                                             data-feather="user-check"> </i></span>
+                                     <div class="media-body">
+                                         <p>تحویل کامل</p>
+                                         <span>6 ساعت پیش</span>
+                                     </div>
+                                 </div>
+                             </li>--}}
+                        </ul>
+                    </li>
+                    <li>
+                        <div class="mode"><i class="fa fa-moon-o"></i></div>
+                    </li>
+                    <li class="onhover-dropdown p-0">
+                        <button class="btn btn-primary-light" type="button">
+                            <a href="login_two.html"><i data-feather="log-out"></i>خروج</a>
+                        </button>
+                    </li>
+                </ul>
             </div>
-        </div>
-        <div class="main-content">
-            <div class="container-fluid topic">
-                <div class="row">
-                    <div class="col-lg-3 col-sm-12">
-                        <div class="feature-box">
-                            <div class="feature-icon">
-                                <i class="fa fa-dollar-sign  "></i>
-                            </div>
-                            <p>موجودی فعال شما
-                                <span>
-                                        <strong>700</strong> تتر
-                                    </span>
-                            </p>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-12">
-                        <div class="feature-box">
-                            <div class="feature-icon">
-                                <i class="fa fa-hands-helping  "></i>
-                            </div>
-                            <p>تعداد صرافی
-                                <span>
-                                        <strong>18</strong> مورد
-                                    </span>
-                            </p>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-12">
-                        <div class="feature-box">
-                            <div class="feature-icon">
-                                <i class="fa fa-shopping-bag  "></i>
-                            </div>
-                            <p>تعداد خرید فروش ها
-                                <span>
-                                        <strong>400</strong>
-                                    </span>
-                            </p>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-12">
-                        <div class="feature-box">
-                            <div class="feature-icon">
-                                <i class="fa fa-funnel-dollar  "></i>
-                            </div>
-                            <p> کل موجودی درگیر شده
-                                <span>
-                                        <strong>800.000.000</strong> تتر
-                                    </span>
-                            </p>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-12">
-                        <div class="feature-box">
-                            <div class="feature-icon">
-                                <i class="fa fa-chart-pie  "></i>
-                            </div>
-                            <p>میانگین سود
-                                <span>
-                                        <strong>48%</strong>
-                                    </span>
-                            </p>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-12">
-                        <div class="feature-box">
-                            <div class="feature-icon">
-                                <i class="fa fa-chart-line  "></i>
-                            </div>
-                            <p> سود کل
-                                <span>
-                                        <strong>2800</strong> تتر
-                                    </span>
-                            </p>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-12">
-                        <div class="feature-box">
-                            <div class="feature-icon">
-                                <i class="fa fa-percent  "></i>
-                            </div>
-                            <p> سهم شما(70%)
-                                <span>
-                                        <strong>2000</strong> تتر
-                                    </span>
-                            </p>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-12">
-                        <div class="feature-box">
-                            <div class="feature-icon">
-                                <i class="fa fa-globe  "></i>
-                            </div>
-                            <p>پورسانت سایت (30%)
-                                <span>
-                                        <strong>800</strong> تتر
-                                    </span>
-                            </p>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-
-                </div>
-                <div class="row">
-                    <div class="col-lg-6 col-sm-12">
-                        <div class="feature-box">
-                            <div class="feature-title">
-                                <i class="fa fa-square-full"></i>
-                                <span>آمار سود ربات</span>
-                            </div>
-                            <div class="period-list">
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-                                        3 ماه گذشته
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                                        <li><a class="dropdown-item " href="#">3 ماه گذشته</a></li>
-                                        <li><a class="dropdown-item" href="#"> 6 ماه گذشته</a></li>
-                                        <li><a class="dropdown-item" href="#">  12 ماه گذشته</a></li>
-
-                                    </ul>
-                                </div>
-                                <script type="text/javascript">
-                                    var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))
-                                    var dropdownList = dropdownElementList.map(function(dropdownToggleEl) {
-                                        return new bootstrap.Dropdown(dropdownToggleEl)
-                                    })
-                                </script>
-                            </div>
-                            <div class="clearfix"></div>
-                            <div class="chart-box">
-                                <img src="/assets/user/images/chart.png">
-                                <div class="summary">
-                                    <span class="">جمع کل سود:</span>
-                                    <span class=""><strong>3.2</strong>درصد</span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-12">
-                        <div class="feature-box">
-                            <div class="feature-title">
-                                <i class="fa fa-square-full"></i>
-                                <span> آمار درامد من به دلار</span>
-                            </div>
-                            <div class="period-list">
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-                                        3 ماه گذشته
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                                        <li><a class="dropdown-item " href="#">3 ماه گذشته</a></li>
-                                        <li><a class="dropdown-item" href="#"> 6 ماه گذشته</a></li>
-                                        <li><a class="dropdown-item" href="#">  12 ماه گذشته</a></li>
-
-                                    </ul>
-                                </div>
-                                <script type="text/javascript">
-                                    var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))
-                                    var dropdownList = dropdownElementList.map(function(dropdownToggleEl) {
-                                        return new bootstrap.Dropdown(dropdownToggleEl)
-                                    })
-                                </script>
-                            </div>
-                            <div class="clearfix"></div>
-                            <div class="chart-box">
-                                <img src="/assets/user/images/chart.png">
-                                <div class="summary">
-                                    <span class="">جمع کل درامد من:</span>
-                                    <span class=""><strong>802.000.000</strong>USDT</span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="row">
-                    <div class="col-lg-12 col-sm-12">
-                        <div class="sectoin-title">
-                            <i class="fa fa-square-full"></i>
-                            <span>مقایسه قیمت ها </span>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-12">
-                        <div class="feature-box compare">
-                            <div class="float-left">
-                                <h3>BTCUSDT</h3>
-                                <span>بالاترین نرخ ارز</span>
-                                <span class="highest"><strong>1.000.000</strong>USDT</span>
-                                <span>نام صرافی اینجا</span>
-                            </div>
-                            <div class="float-right">
-                                <p>درصد سود
-                                    <span><i class="fa fa-sort-up"></i>3.2%</span>
-                                </p>
-                                <span>پایین ترین نرخ ارز</span>
-                                <span class="lowest"><strong>800.000</strong>USDT</span>
-                                <span>نام صرافی اینجا</span>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-12">
-                        <div class="feature-box compare">
-                            <div class="float-left">
-                                <h3>BTCUSDT</h3>
-                                <span>بالاترین نرخ ارز</span>
-                                <span class="highest"><strong>1.000.000</strong>USDT</span>
-                                <span>نام صرافی اینجا</span>
-                            </div>
-                            <div class="float-right">
-                                <p>درصد سود
-                                    <span><i class="fa fa-sort-up"></i>3.2%</span>
-                                </p>
-                                <span>پایین ترین نرخ ارز</span>
-                                <span class="lowest"><strong>800.000</strong>USDT</span>
-                                <span>نام صرافی اینجا</span>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-sm-12">
-                        <div class="feature-box compare">
-                            <div class="float-left">
-                                <h3>BTCUSDT</h3>
-                                <span>بالاترین نرخ ارز</span>
-                                <span class="highest"><strong>1.000.000</strong>USDT</span>
-                                <span>نام صرافی اینجا</span>
-                            </div>
-                            <div class="float-right">
-                                <p>درصد سود
-                                    <span><i class="fa fa-sort-up"></i>3.2%</span>
-                                </p>
-                                <span>پایین ترین نرخ ارز</span>
-                                <span class="lowest"><strong>800.000</strong>USDT</span>
-                                <span>نام صرافی اینجا</span>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-sm-12">
-                        <div class="feature-box compare">
-                            <div class="float-left">
-                                <h3>BTCUSDT</h3>
-                                <span>بالاترین نرخ ارز</span>
-                                <span class="highest"><strong>1.000.000</strong>USDT</span>
-                                <span>نام صرافی اینجا</span>
-                            </div>
-                            <div class="float-right">
-                                <p>درصد سود
-                                    <span><i class="fa fa-sort-up"></i>3.2%</span>
-                                </p>
-                                <span>پایین ترین نرخ ارز</span>
-                                <span class="lowest"><strong>800.000</strong>USDT</span>
-                                <span>نام صرافی اینجا</span>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12 col-sm-12">
-                        <div class="sectoin-title">
-                            <i class="fa fa-square-full"></i>
-                            <span>لیست معاملات اخیر</span>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 col-sm-12">
-                        <div class="table-box">
-                            <table border="0">
-                                <tr>
-                                    <th>شناسه</th>
-                                    <th>رمز ارز</th>
-                                    <th>قیمت فروش</th>
-                                    <th>فروش به</th>
-                                    <th>قیمت خرید</th>
-                                    <th>خرید از</th>
-                                    <th>زمان </th>
-                                    <th>درصد سود</th>
-                                    <th>نتیجه</th>
-                                </tr>
-                                <tr class="light-color">
-                                    <td>#694414</td>
-                                    <td><i class="far fa-bitcoin"></i> بیت کوین (BTC)</td>
-                                    <td><strong>400</strong>تتر</td>
-                                    <td>اسم صرافی</td>
-                                    <td><strong>370</strong>تتر</td>
-                                    <td>اسم صرافی</td>
-                                    <td>1400/08/28</td>
-                                    <td>3.2%</td>
-                                    <td>موفق</td>
-                                </tr>
-                                <tr class="grey-color">
-                                    <td>#694414</td>
-                                    <td><i class="far fa-bitcoin"></i> بیت کوین (BTC)</td>
-                                    <td><strong>400</strong>تتر</td>
-                                    <td>اسم صرافی</td>
-                                    <td><strong>370</strong>تتر</td>
-                                    <td>اسم صرافی</td>
-                                    <td>1400/08/28</td>
-                                    <td>3.2%</td>
-                                    <td>موفق</td>
-                                </tr>
-                                <tr class="light-color">
-                                    <td>#694414</td>
-                                    <td><i class="far fa-bitcoin"></i> بیت کوین (BTC)</td>
-                                    <td><strong>400</strong>تتر</td>
-                                    <td>اسم صرافی</td>
-                                    <td><strong>370</strong>تتر</td>
-                                    <td>اسم صرافی</td>
-                                    <td>1400/08/28</td>
-                                    <td>3.2%</td>
-                                    <td>موفق</td>
-                                </tr>
-                                <tr class="grey-color">
-                                    <td>#694414</td>
-                                    <td><i class="far fa-bitcoin"></i> بیت کوین (BTC)</td>
-                                    <td><strong>400</strong>تتر</td>
-                                    <td>اسم صرافی</td>
-                                    <td><strong>370</strong>تتر</td>
-                                    <td>اسم صرافی</td>
-                                    <td>1400/08/28</td>
-                                    <td>3.2%</td>
-                                    <td>موفق</td>
-                                </tr>
-                                <tr class="light-color">
-                                    <td>#694414</td>
-                                    <td><i class="far fa-bitcoin"></i> بیت کوین (BTC)</td>
-                                    <td><strong>400</strong>تتر</td>
-                                    <td>اسم صرافی</td>
-                                    <td><strong>370</strong>تتر</td>
-                                    <td>اسم صرافی</td>
-                                    <td>1400/08/28</td>
-                                    <td>3.2%</td>
-                                    <td>موفق</td>
-                                </tr>
-                                <tr class="grey-color">
-                                    <td>#694414</td>
-                                    <td><i class="far fa-bitcoin"></i> بیت کوین (BTC)</td>
-                                    <td><strong>400</strong>تتر</td>
-                                    <td>اسم صرافی</td>
-                                    <td><strong>370</strong>تتر</td>
-                                    <td>اسم صرافی</td>
-                                    <td>1400/08/28</td>
-                                    <td>3.2%</td>
-                                    <td>موفق</td>
-                                </tr>
-                                <tr class="light-color">
-                                    <td>#694414</td>
-                                    <td><i class="far fa-bitcoin"></i> بیت کوین (BTC)</td>
-                                    <td><strong>400</strong>تتر</td>
-                                    <td>اسم صرافی</td>
-                                    <td><strong>370</strong>تتر</td>
-                                    <td>اسم صرافی</td>
-                                    <td>1400/08/28</td>
-                                    <td>3.2%</td>
-                                    <td>موفق</td>
-                                </tr>
-                                <tr class="grey-color">
-                                    <td>#694414</td>
-                                    <td><i class="far fa-bitcoin"></i> بیت کوین (BTC)</td>
-                                    <td><strong>400</strong>تتر</td>
-                                    <td>اسم صرافی</td>
-                                    <td><strong>370</strong>تتر</td>
-                                    <td>اسم صرافی</td>
-                                    <td>1400/08/28</td>
-                                    <td>3.2%</td>
-                                    <td>موفق</td>
-                                </tr>
-                            </table>
-                            <div class="pagination-box">
-                                <nav aria-label="Page navigation example">
-                                    <ul class="pagination">
-                                        <li class="page-item">
-                                            <a class="page-link" href="#" aria-label="Previous">
-                                                <span aria-hidden="true">&laquo;</span>
-                                            </a>
-                                        </li>
-                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item "><a class="page-link active" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#" aria-label="Next">
-                                                <span aria-hidden="true">&raquo;</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                                <span>تعداد صفحات<strong>11</strong></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12 col-sm-12">
-                        <div class="feature-box">
-                            <div class="how-work">
-                                <div class="accordion" id="accordionExample">
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="headingOne">
-                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                <span>01</span>
-                                                <h4>مرحله اول</h4>
-                                                <p>توضیح کوتاه در مورد مرحله</p>
-                                            </button>
-                                        </h2>
-                                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
-                                                <h3>
-                                                    <span>01</span> مرحله اول
-                                                </h3>
-                                                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می
-                                                باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان
-                                                فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای
-                                                موجود طراحی اساسا مورد استفاده قرار گیرد.
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="headingTwo">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                <span>02</span>
-                                                <h4>مرحله دوم</h4>
-                                                <p>توضیح کوتاه در مورد مرحله</p>
-                                            </button>
-                                        </h2>
-                                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
-                                                <h3>
-                                                    <span>02</span> مرحله دوم
-                                                </h3>
-                                                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می
-                                                باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان
-                                                فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای
-                                                موجود طراحی اساسا مورد استفاده قرار گیرد.
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="headingThree">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                                <span>03</span>
-                                                <h4>مرحله سوم</h4>
-                                                <p>توضیح کوتاه در مورد مرحله</p>
-                                            </button>
-                                        </h2>
-                                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
-                                                <h3>
-                                                    <span>03</span> مرحله سوم
-                                                </h3>
-                                                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می
-                                                باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان
-                                                فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای
-                                                موجود طراحی اساسا مورد استفاده قرار گیرد.
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="d-lg-none mobile-toggle pull-right w-auto"><i data-feather="more-horizontal"></i></div>
         </div>
     </div>
+    <!-- Page Header Ends                              -->
+    <!-- Page Body Start-->
+    <div class="page-body-wrapper sidebar-icon">
+        <!-- Page Sidebar Start-->
+    @include('user.layout.sidebar')
+
+    <!-- Page Sidebar Ends-->
+    @yield('page')
+    <!-- footer start-->
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6 footer-copyright">
+                        <p class="mb-0">حق چاپ 2021-22 © ویحو کلیه حقوق محفوظ است.</p>
+                    </div>
+                    <div class="col-md-6">
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
 </div>
+<!-- latest jquery-->
+<script src="/assets/mirror/js/jquery-3.5.1.min.js"></script>
+<!-- feather icon js-->
+<script src="/assets/mirror/js/icons/feather-icon/feather.min.js"></script>
+<script src="/assets/mirror/js/icons/feather-icon/feather-icon.js"></script>
+<!-- Sidebar jquery-->
+<script src="/assets/mirror/js/sidebar-menu.js"></script>
+<script src="/assets/mirror/js/config.js"></script>
+<!-- Bootstrap js-->
+<script src="/assets/mirror/js/bootstrap/popper.min.js"></script>
+<script src="/assets/mirror/js/bootstrap/bootstrap.min.js"></script>
+<!-- Plugins JS start-->
+<script src="/assets/mirror/js/editor/ckeditor/ckeditor.js"></script>
+<script src="/assets/mirror/js/editor/ckeditor/adapters/jquery.js"></script>
+<script src="/assets/mirror/js/dropzone/dropzone.js"></script>
+<script src="/assets/mirror/js/dropzone/dropzone-script.js"></script>
+<script src="/assets/mirror/js/select2/select2.full.min.js"></script>
+<script src="/assets/mirror/js/select2/select2-custom.js"></script>
+<script src="/assets/mirror/js/email-app.js"></script>
+<script src="/assets/mirror/js/form-validation-custom.js"></script>
+<!-- Plugins JS Ends-->
+<!-- Theme js-->
+<script src="/assets/mirror/js/script.js"></script>
+<script src="https://kit.fontawesome.com/c923809309.js" crossorigin="anonymous"></script>
+<script src="/assets/mirror/js/notify/bootstrap-notify.min.js"></script>
+<script src="/assets/mirror/js/notify/notify-script.js"></script>
+@yield('script')
+
+@if(session('msg') != null && session('msg') != '')
+    <script>
+        $.notify({
+                message: '{!! session('msg') !!}',
+            },
+            {
+                type: 'info',
+                allow_dismiss: true,
+                newest_on_top: true,
+                mouse_over: true,
+                showProgressbar: false,
+                clickToHide: true,
+                autoHide: true,
+                autoHideDelay: 1000,
+                spacing: 10,
+                timer: 2000,
+                placement: {
+                    from: 'top',
+                    align: 'left'
+                },
+                offset: {
+                    x: 30,
+                    y: 30
+                },
+                delay: 100,
+                z_index: 10000,
+                animate: {
+                    enter: 'animated bounce',
+                    exit: 'animated bounce'
+                }
+            });
+    </script>
+
+@endif
+
+
+@yield('script')
+
+<!-- login js-->
+<!-- Plugin used-->
 </body>
 
 </html>

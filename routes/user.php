@@ -21,16 +21,17 @@ Route::group(['middleware' => 'user'], function () {
     Route::get('dashboard', [UserController::class, 'loadDashboard'])->name('user.dashboard');
 
     ######## Manager  ########
-//    Route::group(['prefix' => 'manager'], function () {
-//        Route::get('', [AdminController::class, 'listManagers'])->name('manager.index');
-//        Route::get('list', [AdminController::class, 'listManagers'])->name('manager.list');
-//        Route::get('new', [AdminController::class, 'newManager'])->name('manager.new');
-//        Route::post('new/store', [AdminController::class, 'storeManager'])->name('manager.store');
-//        Route::get('edit/{id}', [AdminController::class, 'editManager'])->name('manager.edit');
-//        Route::post('edit/store/{id}', [AdminController::class, 'updateManager'])->name('manager.update');
-//        Route::get('delete/{id}', [AdminController::class, 'managerDelete'])->name('manager.delete');;
-//
-//    });
+    Route::group(['prefix' => 'user'], function () {
+        Route::get('/compete-info', [UserController::class, 'completeProfileInfo'])->name('user.complete_profile');
+        Route::post('/submit-info', [UserController::class, 'submitInformation'])->name('user.submit_information');
+        Route::get('/email-verification', [UserController::class, 'showEmailVerification'])->name('user.email_verification');
+        Route::post('/email-verification', [UserController::class, 'verifyEmailAddress'])->name('user.email_verify');
+        Route::get('/profile', [UserController::class, 'showProfile'])->name('user.profile');
+
+    });
+    Route::group(['prefix' => 'requests'], function () {
+        Route::get('/', [UserController::class, 'listRequests'])->name('user.requests');
+    });
     ######## Manager  ########
 
 });

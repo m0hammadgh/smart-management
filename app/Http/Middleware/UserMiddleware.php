@@ -22,8 +22,8 @@ class UserMiddleware
                     $request->session()->put('User',$User);
                 }
                 else{
-                    $request->session()->forget('Admin');
-                    Cookie::queue('Admin', '', -1);
+                    $request->session()->forget('User');
+                    Cookie::queue('User', '', -1);
                     return redirect('/user/login')->with('msg','کاربری یافت نشد');
 
                 }
@@ -33,7 +33,12 @@ class UserMiddleware
         if($request->session()->has('User')){
             global $User;
             $User = User::find($request->session()->get('User')->id);
-           
+            if (!$User)
+            {
+                $request->session()->forget('User');
+                Cookie::queue('User', '', -1);
+                return redirect('/user/login')->with('msg','کاربری یافت نشد');
+            }
 
         }else{
             return redirect('/user/login')->with('msg','کاربری یافت نشد');
@@ -47,6 +52,7 @@ class UserMiddleware
 
         # Admin
         view()->share('User',$User);
+        view()->share('user',$User);
 
         return $next($request);
     }

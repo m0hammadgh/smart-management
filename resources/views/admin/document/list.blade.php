@@ -26,15 +26,31 @@
 
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th class="text-center"  scope="col">کاربر</th>
-                                        <th class="text-center"  scope="col">نوع مدرک</th>
-                                        <th class="text-center"  scope="col">مشاهده</th>
+                                        <th class="text-center" scope="col">کاربر</th>
+                                        <th class="text-center" scope="col">نوع درخواست</th>
                                         <th class="text-center" scope="col">وضعیت</th>
-                                        <th class="text-center"  scope="col">عملیات</th>
+                                        <th class="text-center" scope="col">توضیحات</th>
+                                        <th class="text-center" scope="col">تاریخ</th>
+                                        <th class="text-center" scope="col">عملیات</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-
+                                    @foreach($list as $item)
+                                        <tr>
+                                            <th scope="row">{{$loop->index +1}}</th>
+                                            <td class="text-center">{!! $item->user->name !!} {!! $item->user->last_name !!}</td>
+                                            <td class="text-center">{!! getDocumentVerificationType($item->type) !!}</td>
+                                            <td class="text-center">{!! getDocumentVerificationStatus($item->status) !!}</td>
+                                            <td class="text-center">{{$item->note}}</td>
+                                            <td class="text-center">{{$item->created_at}}</td>
+                                            <td class="text-center">
+                                                <a  href="{{route('document.reject',$item->id)}}" ><i
+                                                        class="fa fa-remove"></i></a>
+                                                <a href="{{route('document.accept',$item->id)}}" ><i
+                                                        class="fa fa-check"></i></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
 
                                     </tbody>
                                 </table>

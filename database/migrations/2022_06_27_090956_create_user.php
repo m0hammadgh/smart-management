@@ -22,6 +22,7 @@ class CreateUser extends Migration
             $table->text('user_name')->nullable();
             $table->text('mobile_number')->nullable();
             $table->text('picture')->nullable();
+            $table->text('national_id')->nullable();
             $table->text('national_card')->nullable();
             $table->text('invite_code')->nullable();
             $table->text('random_register')->nullable();
@@ -29,7 +30,7 @@ class CreateUser extends Migration
             $table->dateTime('last_sms_code')->nullable();
             $table->boolean('mobile_verified')->default(false);
             $table->boolean('email_verified')->default(false);
-            $table->enum('status',['active','mobile_verification','document_verification','fill_information','block','new'])->default('new');
+            $table->enum('status',['active','mobile_verification','document_verification','fill_information','block','new','review_document','email_verification'])->default('new');
             $table->timestamps();
         });
     }
