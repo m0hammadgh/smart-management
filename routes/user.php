@@ -34,4 +34,18 @@ Route::group(['middleware' => 'user'], function () {
     });
     ######## Manager  ########
 
+    Route::group(['prefix' => 'card'], function () {
+        Route::get('/', [UserController::class, 'listUserCreditCards'])->name('user.card.list');
+        Route::post('/store', [UserController::class, 'storeCreditCard'])->name('user.card.store');
+    });
+
+
+    Route::group(['prefix' => 'robot'], function () {
+        Route::get('/', [UserController::class, 'loadRobotStatistics'])->name('robot.index');
+    });
+
+    Route::group(['prefix' => 'accountant'], function () {
+        Route::get('/', [UserController::class, 'loadAccountant'])->name('accountant.index');
+    });
+
 });

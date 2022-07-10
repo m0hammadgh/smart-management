@@ -1,6 +1,11 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BankAccountController;
+use App\Http\Controllers\BankController;
+use App\Http\Controllers\SubscriptionPlanController;
+use App\Http\Controllers\TicketCategoryController;
+use App\Models\TicketCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -55,9 +60,49 @@ Route::group(['middleware' => 'admin'], function () {
         Route::get('/accept/{id}', [AdminController::class, 'acceptDocument'])->name('document.accept');
         Route::get('/reject/{id}', [AdminController::class, 'rejectDocument'])->name('document.reject');
 
-
     });
-    ######## User  ########
+    ######## Document  ########
 
 
+    ######## Bank  ########
+    Route::group(['prefix' => 'bank'], function () {
+        Route::get('', [BankController::class, 'listBanks'])->name('bank.list');
+        Route::get('/new', [BankController::class, 'addBank'])->name('bank.add');
+        Route::post('/store', [BankController::class, 'storeBank'])->name('bank.store');
+        Route::get('/edit/{id}', [BankController::class, 'editBank'])->name('bank.edit');
+        Route::post('/update/{id}', [BankController::class, 'updateBank'])->name('bank.update');
+        Route::get('/delete/{id}', [BankController::class, 'delete'])->name('bank.delete');
+    });
+    ######## Bank  ########
+
+    ######## Bank Accounts  ########
+    Route::group(['prefix' => 'bank-account'], function () {
+        Route::get('', [BankAccountController::class, 'listBankAccountsVerificationRequest'])->name('bankAccounts.list');
+        Route::get('/accept/{id}', [BankAccountController::class, 'acceptBankAccount'])->name('bankAccounts.accept');
+        Route::post('/reject/{id}', [BankAccountController::class, 'rejectBankAccount'])->name('bankAccounts.reject');
+    });
+    ######## Bank  ########
+
+
+    ######## Subscription Plan  ########
+    Route::group(['prefix' => 'subscription'], function () {
+        Route::get('', [SubscriptionPlanController::class, 'listPlans'])->name('subscription.list');
+        Route::get('/new', [SubscriptionPlanController::class, 'addPlan'])->name('subscription.add');
+        Route::post('/store', [SubscriptionPlanController::class, 'storeSubscription'])->name('subscription.store');
+        Route::get('/edit/{id}', [SubscriptionPlanController::class, 'editPlan'])->name('subscription.edit');
+        Route::post('/update/{id}', [SubscriptionPlanController::class, 'updateSubscription'])->name('subscription.update');
+        Route::get('/delete/{id}', [SubscriptionPlanController::class, 'delete'])->name('subscription.delete');
+    });
+    ######## Subscription Plan  ########
+
+    ######## Ticket Category  ########
+    Route::group(['prefix' => 'ticket-cat'], function () {
+        Route::get('', [TicketCategoryController::class, 'listItems'])->name('ticketCategory.list');
+        Route::get('/new', [TicketCategoryController::class, 'addTicketCat'])->name('ticketCategory.add');
+        Route::post('/store', [TicketCategoryController::class, 'storeTicketCat'])->name('ticketCategory.store');
+        Route::get('/edit/{id}', [TicketCategoryController::class, 'edit'])->name('ticketCategory.edit');
+        Route::post('/update/{id}', [TicketCategoryController::class, 'update'])->name('ticketCategory.update');
+        Route::get('/delete/{id}', [TicketCategoryController::class, 'delete'])->name('ticketCategory.delete');
+    });
+    ######## Subscription Plan  ########
 });

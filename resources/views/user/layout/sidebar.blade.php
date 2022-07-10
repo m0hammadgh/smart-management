@@ -49,7 +49,7 @@
                         <a class="nav-link menu-title link-nav" href="{{route('user.requests')}}"><i data-feather="list"></i><span>درخواست ها</span></a>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title link-nav" href="#"><i data-feather="list"></i><span>حساب های بانکی</span></a>
+                        <a class="nav-link menu-title link-nav" ><i data-feather="list"></i><span>حساب های بانکی</span></a>
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav" href="#"><i data-feather="list"></i><span>طرح های ویژه</span></a>

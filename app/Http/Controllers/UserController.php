@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\Bank;
+use App\Models\BankAccount;
 use App\Models\DocumentVerificationRequest;
+use App\Models\SubscriptionPlan;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -163,9 +166,8 @@ class UserController extends Controller
             $user->save();
             DocumentVerificationRequest::create(["user_id" => $user->id, "type" => "national_card", "file" => $user->national_card]);
             return redirect()->route('user.dashboard')->with('msg', 'حساب شما پس از تایید مدارک توسط کارشناسان فعال خواهد شد');
-        }
-        else{
-            return  back()->with('msg','کد وارد شده صحیح نمی باشد');
+        } else {
+            return back()->with('msg', 'کد وارد شده صحیح نمی باشد');
         }
 
 
@@ -173,8 +175,11 @@ class UserController extends Controller
 
     public function showProfile()
     {
-        return view('user.profile.profile');
+        $subscriptionPLan=SubscriptionPlan::all();
+
+        return view('user.profile.profile',compact('subscriptionPLan'));
     }
+
     public function logout(Request $request)
     {
         $request->session()->forget('Admin');
@@ -227,11 +232,40 @@ class UserController extends Controller
     ################# Document Review Requests ################
     public function listRequests()
     {
-     global $User;
-        $list = DocumentVerificationRequest::where('user_id',$User->id)->paginate(50);
+        global $User;
+        $list = DocumentVerificationRequest::where('user_id', $User->id)->paginate(50);
         return view('user.requests.list', compact('list'));
     }
     ################# Document Review Requests ################
+
+
+    ################# Bank Card Account ################
+    public function listUserCreditCards()
+    {
+        global $User;
+        $banks=Bank::all();
+        $list = BankAccount::where('user_id', $User->id)->paginate(10);
+        return view('user.credit-card.list', compact('list','banks',));
+    }
+
+    public function storeCreditCard(Request $request)
+    {
+        global $User;
+        $request->request->add(['user_id' => $User->id]);
+         BankAccount::create($request->all());
+        return redirect()->route('user.card.list');
+    }
+    ################# Bank Card Account ################
+
+    public function loadRobotStatistics()
+    {
+        return view('user.robot.index');
+    }
+
+    public function loadAccountant()
+    {
+        return view('user.accountant.index');
+    }
 
 
 }
