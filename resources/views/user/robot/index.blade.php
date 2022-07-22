@@ -24,10 +24,10 @@
                     </div>
                     <p>اکانت فعال
                         <span>
-                                        <strong>آزمایشی</strong>
+                                        <strong>{{$plan->plan->title ?? ""}}</strong>
                                     </span>
                         <span>
-17 روز مانده                                    </span>
+{{getUserSubscriptionDayRemaining($user->id)}}  روز مانده                                    </span>
                     </p>
                     <div class="clearfix"></div>
 
@@ -41,7 +41,7 @@
                     </div>
                     <p>موجودی فعال
                         <span>
-                                        <strong>1500 تتر</strong>
+                                        <strong>{{$User->active_balance}} تتر</strong>
                                     </span>
                     </p>
                     <div class="clearfix"></div>
@@ -52,31 +52,32 @@
 
         </div>
         <div class="row">
-            <div class="col-3"></div>
-            <div class="col-lg-6 col-sm-12">
+            <div class="col-lg-12 col-sm-12">
                 <div class="feature-box">
                     <div class="feature-title">
                         <i class="fa fa-square-full"></i>
                         <span>اطلاعات حساب معاملاتی</span>
                     </div>
-                   <p> مجموع معاملات 24 ساعت گذشته ربات<strong>17 % </strong> می باشد</p>
+
+                    <p> موجودی در حال فعال :<strong> {{$User->activating_balance??0}}  </strong> می باشد</p>
                     <br/>
-                    <p>موجودی ربات فعال : <strong>370 دلار </strong></p>
+                    <p> مجموع معاملات 24 ساعت گذشته ربات<strong> {{$todayTrades??0}}  </strong> می باشد</p>
                     <br/>
-                    <p>سود امروز شما : <strong>44 دلار </strong></p>
+                    <p>تعداد صرافی های فعال : <strong>{{$exchanges}} صرافی </strong></p>
                     <br/>
-                    <p>تعداد صرافی های فعال : <strong>12 صرافی </strong></p>
+                    <p>کل موجودی درگیر شده : <strong>{{$stackedAmount}} دلار </strong></p>
                     <br/>
-                    <p>سود عادی شما : <strong>13 % </strong></p>
+                    <p>میانگین سود : <strong>{{$averageProfit??0}} دلار </strong></p>
                     <br/>
-                    <p>سود کل امروز (USDT) : <strong> 4.5 دلار (تتر) </strong></p>
+                    <p>کل سود : <strong>{{$totalProfit ?? 0}} دلار  </strong></p>
                     <br/>
-                    <p>سهم شما (70%) : <strong> 3.9 دلار (تتر) </strong></p>
+                    <p>سهم شما : <strong>{{$userProfit ?? 0}} دلار  </strong></p>
                     <br/>
-                    <p>سهم سایت (30%) : <strong> 1.1 دلار (تتر) </strong></p>
+                    <p>سهم سایت : <strong>{{$siteProfit ?? 0}} دلار  </strong></p>
+
+
                 </div>
             </div>
-            <div class="col-3"></div>
 
 
         </div>

@@ -46,6 +46,9 @@ Route::group(['middleware' => 'user'], function () {
 
     Route::group(['prefix' => 'accountant'], function () {
         Route::get('/', [UserController::class, 'loadAccountant'])->name('accountant.index');
+        Route::post('/tether', [UserController::class, 'payWithTrc20'])->name('pay.tether');
+        Route::post('/rial', [UserController::class, 'payWithRial'])->name('pay.rial');
+        Route::post('/transfer', [UserController::class, 'payWithTransfer'])->name('pay.transfer');
     });
 
 });

@@ -9,6 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/assets/user/css/style.css">
+
     <link rel="stylesheet/less" type="text/css" href="/assets/user/css/styles.less" />
     <title>True Impact Partners</title>
 </head>
@@ -26,12 +27,19 @@
             </div>
             @if($user->name=="" || $user->last_name=="" )
                 <a class="btn btn-danger" href="{{route('user.complete_profile')}}">تکمیل اطلاعات</a>
+                <br/>
+                <br/>
+
             @elseif($user->email_verified ==false)
+
                 <a class="btn btn-warning" href="{{route('user.email_verification')}}">تایید ایمیل</a>
+
+                <br/>
+                <br/>
             @elseif($user->status =="review_document")
 
                 <span class="account-type btn btn-success">در انتظار تایید مدارک</span>
-                <span class="account-type">حساب نقره ای</span>
+
 
             @else
                 <label class="label label-info">{{$user->name}} {{$user->last_name}}</label>
@@ -39,19 +47,19 @@
                 <br/>
 
             @endif
-            <div class="extra-info">
+            <div class="extra-info m-t-15">
                 <ul>
                     <li>
                         <p>رزو باقیمانده</p>
-                        <span>18</span>
+                        <span >{{getUserSubscriptionDayRemaining($User->id)}}</span>
                     </li>
                     <li>
                         <p>سود شما</p>
-                        <span>70%</span>
+                        <span >{{getUserSubscriptionUserProfit($User->id)}}%</span>
                     </li>
                     <li>
                         <p>سود سایت</p>
-                        <span>30%</span>
+                        <span >{{getUserSubscriptionAdminProfit($User->id)}}%</span>
                     </li>
                 </ul>
             </div>
@@ -146,10 +154,12 @@
         </div>
     </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="/assets/user/js/less.js" type="text/javascript"></script>
-<script src=".//assets/user/js/chart.js"></script>
-<script src=".//assets/user/js/javascript.js" ></script>
+<script src="/assets/user/js/chart.js"></script>
+<script src="/assets/user/js/javascript.js" ></script>
+
 
 </body>
 

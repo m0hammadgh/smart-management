@@ -164,6 +164,24 @@ class AdminController extends Controller
         User::find($id)->delete();
         return back()->with('msg', 'با موفقیت حذف شد');
     }
+    public function setUsersProfit()
+    {
+        $users=User::where('status','active')->get();
+        return view('admin.user.profit', compact('users', ));
+    }
+    public function storeUserProfit(Request $request)
+    {
+        if ($request->users==null)
+        {
+            return  back()->with('msg','کاربری انتخاب نشده است');
+        }
+        foreach ($request->users as $user) {
+            $usr=User::find($user);
+            $usr->profit=$request->profit;
+            $usr->save();
+        }
+        return redirect()->route('user.index')->with('msg','درصد سود با موفقیت اعمال شد');
+    }
     ################## User ####################
 
     ################## Document ####################

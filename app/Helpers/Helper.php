@@ -2,13 +2,18 @@
 
 use App\Models\AppSetting;
 use App\Models\Bank;
+use App\Models\OwnerBankAccount;
 use App\Models\User;
+use App\Models\UserPlan;
+use Carbon\Carbon;
 use Kavenegar\KavenegarApi;
+use Morilog\Jalali\Jalalian;
 
 function sendSms($mobile, $text, $template_key, $secondValue = null, $thirdValue = null)
 {
     $api = new KavenegarApi(getValue('kavenegar_key'));
-    $res = $api->VerifyLookup($mobile, $text, $secondValue, $thirdValue, getValue($template_key));
+    $template = getValue($template_key);
+    $res = $api->VerifyLookup($mobile, $text, $secondValue, $thirdValue, $template);
 
 }
 
@@ -19,6 +24,11 @@ function getValue($key): ?string
         return $appSetting->value;
     }
     return null;
+}
+
+function getOwnerBank()
+{
+    return OwnerBankAccount::first();
 }
 
 function getAdminAccess($active)
@@ -61,7 +71,7 @@ function getUserStatus($status)
         return '<label class="badge badge-info"> تایید مدارک</label>';
     } else if ($status == 'fill_information') {
         return '<label class="badge badge-info"> تکمیل اطلاعات</label>';
-    }else if ($status == 'email_verification') {
+    } else if ($status == 'email_verification') {
         return '<label class="badge badge-info"> تایید ایمیل </label>';
     } else if ($status == 'block') {
         return '<label class="badge badge-info"> مسدود</label>';
@@ -101,6 +111,12 @@ function getBladeImage($image, $type, $id = 0)
             case 'bank':
                 $path = "bank";
                 break;
+            case 'currency':
+                $path = "currency";
+                break;
+            case 'exchange':
+                $path = "exchange";
+                break;
         }
         return '<img height="50px" width="50px" src="/uploads/' . $path . '/' . $image . '"/>';
     }
@@ -119,4 +135,45 @@ function getBankInfo($id)
 
     $bank = Bank::find($id);
     return '<label class="badge badge-secondary" >' . $bank->title . '</label>';
+}
+
+
+function convertCreateAtToPersianDateTime($createdAt)
+{
+    $dateTime = Carbon::createFromFormat('Y-m-d H:i:s', $createdAt)->setTimezone('Asia/Tehran');
+    $date = Jalalian::forge($dateTime)->format('Y/m/d-h:m');
+    return $date;
+
+}
+
+function getUserSubscriptionDayRemaining($id)
+{
+    $userPlan = UserPlan::where('user_id', $id)->first();
+    if (Carbon::now()->isAfter(Carbon::parse($userPlan->expire_time))) {
+        return "منقضی شده";
+    }
+    return Carbon::parse($userPlan->expire_time)->diffInDays(Carbon::now());
+
+
+}
+
+function getUserSubscriptionUserProfit($id)
+{
+    $userPlan = UserPlan::where('user_id', $id)->first();
+    if (Carbon::now()->isAfter(Carbon::parse($userPlan->expire_time))) {
+        return "-";
+    }
+    return $userPlan->plan->user_profit;
+
+}
+
+
+function getUserSubscriptionAdminProfit($id)
+{
+    $userPlan = UserPlan::where('user_id', $id)->first();
+    if (Carbon::now()->isAfter(Carbon::parse($userPlan->expire_time))) {
+        return "-";
+    }
+    return $userPlan->plan->admin_profit;
+
 }

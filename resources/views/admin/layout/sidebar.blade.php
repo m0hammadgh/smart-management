@@ -51,24 +51,38 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title link-nav" href="{{route('document.list')}}"><i data-feather="heart"></i><span>درخواست تایید مدارک</span></a>
+                        <a class="nav-link menu-title link-nav" href="{{route('document.list')}}"><i
+                                data-feather="heart"></i><span>درخواست تایید مدارک</span></a>
+                    </li>
+                    <li class="dropdown">
+                        <a class="nav-link menu-title link-nav" href="{{route('user.profit')}}"><i
+                                data-feather="heart"></i><span>تایین سود داشبورد</span></a>
+                    </li>
+                    <li class="dropdown">
+                        <a class="nav-link menu-title" href="javascript:void(0)"><i data-feather="list"></i><span>مقایسه قیمت ارز ها</span></a>
+                        <ul class="nav-submenu menu-content">
+                            <li><a href="{{route('compare.list')}}">لیست مقایسه</a></li>
+                            <li><a href="{{route('compare.add')}}">افزودن مقایسه </a></li>
+                        </ul>
                     </li>
                     <li class="sidebar-main-title">
                         <div>
                             <h6>مالی</h6>
                         </div>
                     </li>
+
+
                     <li class="dropdown">
                         <a class="nav-link menu-title" href="javascript:void(0)">
-                            <i data-feather="box"></i>
-                            <span>بانک</span>
+                            <i data-feather="folder-plus"></i>
+                            <span>خرید و فروش ربات</span>
                         </a>
                         <ul class="nav-submenu menu-content">
-                            <li><a href="{{route('bank.list')}}">لیست بانک ها</a></li>
-                            <li><a href="{{route('bank.add')}}">افزودن بانک</a></li>
-
+                            <li><a href="{{route('tradeHistory.list')}}">لیست خرید و فروش ها</a></li>
+                            <li><a href="{{route('tradeHistory.add')}}">ثبت خرید و فروش</a></li>
                         </ul>
                     </li>
+
                     <li class="dropdown">
                         <a class="nav-link menu-title" href="javascript:void(0)">
                             <i data-feather="folder-plus"></i>
@@ -103,6 +117,22 @@
                         <a class="nav-link menu-title link-nav" href="{{route('dashboard')}}"><i data-feather="zap"></i><span>پیام های دریافتی</span></a>
                     </li>
 
+                    <li class="sidebar-main-title">
+                        <div>
+                            <h6>تنظیمات اصلی</h6>
+                        </div>
+                    </li>
+
+                    <li class="dropdown">
+                        <a class="nav-link menu-title link-nav" href="{{route('currency.list')}}"><i data-feather="zap"></i><span>رمز ارز ها</span></a>
+                    </li>
+                    <li class="dropdown">
+                        <a class="nav-link menu-title link-nav" href="{{route('exchange.list')}}"><i data-feather="zap"></i><span>صرافی ها</span></a>
+                    </li>
+                    <li class="dropdown">
+                        <a class="nav-link menu-title link-nav" href="{{route('bank.list')}}"><i data-feather="zap"></i><span>بانک ها</span></a>
+                    </li>
+                </ul>
 
             </div>
             <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>

@@ -14,7 +14,7 @@
                     <div class="float-left" style="margin-left: 10px;margin-right: 20px">
                         <h3>{{$user->mobile_number}}</h3>
                         <span>{{$user->national_id ??"-"}}</span>
-                        <span>{{$user->name}} {{$user->last_name}} </span>
+                        <span>{{$user->name??"-"}} {{$user->last_name??""}} </span>
                         <span>{{$user->email ??"-"}}</span>
                         <span>{!! getUserStatus($user->status) !!}  </span>
                     </div>
@@ -28,9 +28,9 @@
                     <div class="float-left">
                         <span><input type="text" placeholder="رمز عبور قدیم" class="form-control"> </span>
 
-                        <span><input type="text"  placeholder="رمز عبور جدید" class="form-control"> </span>
+                        <span><input type="text" placeholder="رمز عبور جدید" class="form-control"> </span>
 
-                        <span><input type="text"  placeholder="تکرار رمز عبور" class="form-control"> </span>
+                        <span><input type="text" placeholder="تکرار رمز عبور" class="form-control"> </span>
 
                     </div>
                     <div class="float-right" style="margin-left: 10px;margin-right: 20px">
@@ -62,7 +62,8 @@
                                     </span>
                     </p>
                     <div class="clearfix"></div>
-                    <a href="{{route('user.card.list')}}" class="btn btn-success" style="margin-top: 10px">افزودن کارت بانکی</a>
+                    <a href="{{route('user.card.list')}}" class="btn btn-success" style="margin-top: 10px">افزودن کارت
+                        بانکی</a>
 
                 </div>
             </div>
@@ -73,7 +74,7 @@
                     </div>
                     <p>وضعیت حساب
                         <span>
-                                        <strong>آزمایشی</strong>
+                                        <strong>{{$plan->plan->title ?? ""}}</strong>
                                     </span>
 
                     </p>
@@ -90,7 +91,7 @@
                     </div>
                     <p>موجودی حساب
                         <span>
-                                        <strong>1500 تتر</strong>
+                                        <strong>{{$user->active_balance}}</strong>
                                     </span>
                     </p>
                     <div class="clearfix"></div>
@@ -117,7 +118,7 @@
 
         </div>
         <div class="row">
-            <div class="col-lg-6 col-sm-12">
+            <div class="col-lg-12 col-sm-12">
                 <div class="feature-box">
                     <div class="feature-title">
                         <i class="fa fa-square-full"></i>
@@ -129,36 +130,14 @@
                                 <th>بانک</th>
                                 <th class="text-center">شماره کارت</th>
                             </tr>
-                            <tr class="light-color">
-                                <td>ملت</td>
-                                <td class="text-center">6037991783109876</td>
+                            @foreach($bankAccounts as $account)
+                                <tr class="light-color">
+                                    <td>{{$account->bank->title}}</td>
+                                    <td class="text-center">6037991783109876</td>
 
-                            </tr>
+                                </tr>
+                            @endforeach
 
-                        </table>
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-lg-6 col-sm-12">
-                <div class="feature-box">
-                    <div class="feature-title">
-                        <i class="fa fa-square-full"></i>
-                        <span>کیف های پول ثبت شده</span>
-                    </div>
-                    <div class="table-box">
-                        <table border="0">
-                            <tr>
-                                <th>ارز</th>
-                                <th class="text-center">نماد</th>
-                                <th class="text-center">آدرس</th>
-                            </tr>
-                            <tr class="light-color">
-                                <td>تتر</td>
-                                <td class="text-center">USDT</td>
-                                <td class="text-center">AI2345678909876543yis8822</td>
-
-                            </tr>
 
                         </table>
                     </div>
@@ -168,64 +147,68 @@
 
 
         </div>
-        <div class="d-flex align-items-center px-3 my-4" >
-            <div class="squre shadow " ></div>
-            <h3 class="h3-font" >طرح عضویت</h3>
+        <div class="d-flex align-items-center px-3 my-4">
+            <div class="squre shadow "></div>
+            <h3 class="h3-font">طرح عضویت</h3>
         </div>
-        <div class="row">
-            <div class="col-lg-3 col-sm-12">
-                <div class="feature-box compare">
-                    <div class="float-left">
-                        <h3>طرح فعال شما</h3>
-                        <h3>مدت زمان باقیمانده</h3>
-                    </div>
-                    <div class="float-left" style="margin-left: 10px;margin-right: 20px">
-                        <h3>آزمایشی</h3>
-                        <h3>13 روز</h3>
-                    </div>
 
-                    <div class="clearfix"></div>
-
-                </div>
-
-            </div>
-            <div class="col-lg-6  col-sm-12">
-                <div class="row">
+        <section>
+            <div class="container">
+                <div class="row mt-3 text-center g-3">
                     @foreach($subscriptionPLan as $plan)
-                        <div class="col-lg-6 col-sm-12">
-                            <div class="feature-box compare">
-                                <div class="float-left">
-                                    <h3>{{$plan->title}}</h3>
-                                    <span>سقف برداشت ریالی</span>
-                                    <span class="highest"><strong>{{$plan->withdraw_rial}}</strong>ریال</span>
-                                    <span>سقف برداشت کریپتو</span>
-                                    <span class="lowest"><strong>{{$plan->withdraw_crypto}}</strong>USDT</span>
+                        <div class="col-md-4 d-flex flex-column align-items-center justify-content-center">
+                            <div for="radio-{{$plan->id}}" class="card text-bg-success mb-3 w-100 "  style="max-width: 20rem;background: beige">
+                                <div class="card-header text-center fs-3 py-4">{{$plan->title}}</div>
+                                <div class="card-body d-flex justify-content-between ">
+                                    <h5 class="card-title">سود سایت</h5>
+                                    <h5 class="card-title">{{$plan->admin_profit}} درصد</h5>
                                 </div>
-                                <div class="float-right">
-                                    <p> درصد سود شما
-                                        <span><i class="fa fa-sort-up"></i>{{$plan->user_profit}} %</span>
-                                    </p>
-                                    <p> درصد سود سایت
-                                    </p>
-                                    <span>{{$plan->admin_profit}} % </span>
-
-                                    <span>{{$plan->duration}} ماهه</span>
-
-                                    <span>قیمت : {{$plan->price}}$</span>
+                                <div class="card-body d-flex justify-content-between ">
+                                    <h5 class="card-title">سود شما</h5>
+                                    <h5 class="card-title">{{$plan->user_profit}} درصد</h5>
                                 </div>
-                                <div class="clearfix"></div>
-                                <hr/>
-                                <a class="btn-success btn " >خرید  </a>
-
+                                <div class="card-body d-flex justify-content-between ">
+                                    <h5 class="card-title">مدت زمان</h5>
+                                    <h5 class="card-title">{{$plan->duration}} روز</h5>
+                                </div>
+                                <div class="card-body d-flex justify-content-between ">
+                                    <h5 class="card-title">قیمت</h5>
+                                    <h5 class="card-title">  {{$plan->price}} $</h5>
+                                </div>
+                                <div class="card-body d-flex justify-content-between ">
+                                    <h5 class="card-title">حداکثر واریز</h5>
+                                    <h5 class="card-title"> ریال </h5>
+                                </div>
+                                <div class="card-body d-flex justify-content-between ">
+                                    <h5 class="card-title">حداکثر برداشت تتر</h5>
+                                    <h5 class="card-title">{{$plan->withdraw_cryto}} تتر</h5>
+                                </div>
+                                <div class="card-body d-flex justify-content-between ">
+                                    <h5 class="card-title">حداکثر برداشت ریال</h5>
+                                    <h5 class="card-title">{{$plan->withdraw_rial}} </h5>
+                                </div>
                             </div>
+
+                                <div class="text-center">
+                                    @if($plan->id!=4)
+                                    <input type="radio" id="radio-{{$plan->id}}" name="subscription" value="{{$plan->id}}">
+                                    @endif
+                                </div>
                         </div>
 
                     @endforeach
+
                 </div>
             </div>
+        </section>
 
-        </div>
+        <section class="col-12">
+            <div class="d-flex justify-content-around   py-4 rounded-4">
+                <button class="bg-info text-light rounded-3 border-0 py-3 px-md-5">پرداخت مستقیم</button>
+                <button class="bg-info text-light rounded-3 border-0 py-3 px-md-5">پرداخت از کیف پول</button>
+            </div>
 
+        </section>
     </div>
 @endsection
 

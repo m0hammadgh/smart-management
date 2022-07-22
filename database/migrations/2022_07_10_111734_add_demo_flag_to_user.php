@@ -14,7 +14,10 @@ class AddDemoFlagToUser extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+            Schema::table('users', function (Blueprint $table) {
+                $table->dateTime('expire_time')->nullable();
+            });
+
         });
     }
 
@@ -25,8 +28,6 @@ class AddDemoFlagToUser extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-        });
+
     }
 }

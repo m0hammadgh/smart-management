@@ -16,7 +16,7 @@
         @endif
         <ul>
             <li>
-               <span >18</span>
+               <span >{{getUserSubscriptionDayRemaining($User->id)}}</span>
                 <p>روز باقیمانده</p>
             </li>
             <li>

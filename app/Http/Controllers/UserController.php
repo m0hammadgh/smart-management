@@ -5,17 +5,31 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use App\Models\Bank;
 use App\Models\BankAccount;
+use App\Models\ComparePrice;
+use App\Models\CurrencyCompare;
 use App\Models\DocumentVerificationRequest;
+use App\Models\Exchange;
+use App\Models\Factor;
 use App\Models\SubscriptionPlan;
+use App\Models\TradeHistory;
+use App\Models\Transaction;
 use App\Models\User;
+use App\Models\UserPlan;
+use App\Traits\PaymentHelperTrait;
 use Carbon\Carbon;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use Kavenegar\KavenegarApi;
 
 class UserController extends Controller
 {
+    use PaymentHelperTrait;
+
     #################### User ####################
     public function login(Request $request)
     {
@@ -117,6 +131,7 @@ class UserController extends Controller
         sendSms($user->mobile_number, $user->sms_code, 'register_sms_key');
         $mobile = $user->mobile_number;
         $user_id = $user->id;
+
         return view('user.auth.verify_mobile', compact(['user_id', 'mobile', 'uuid']));
     }
 
@@ -131,6 +146,7 @@ class UserController extends Controller
             if (Carbon::parse($user->last_sms_code)->addMinutes(2)->isBefore(Carbon::now())) {
                 $user->sms_code = rand(123456, 999999);
                 $user->last_sms_code = Carbon::now();
+                $user->expire_time = Carbon::now()->addDays(getValue('new_user_trial_day'));
                 $user->save();
                 sendSms($user->mobile_number, $user->sms_code, 'register_sms_key');
                 $user_id = $user->id;
@@ -140,6 +156,20 @@ class UserController extends Controller
             }
             $user->mobile_verified = true;
             $user->save();
+            $factor = Factor::create([
+                'user_id' => $user->id,
+                'price' => 0,
+                'status' => "paid",
+                'description' => "فعالسازی طرح آزمایشی",
+
+            ]);
+            UserPlan::create([
+                "user_id" => $user->id,
+                "plan_id" => 4,
+                "expire_time" => Carbon::now()->addDays(SubscriptionPlan::find(4)->duration),
+                "purchased_time" => Carbon::now(),
+                "factor_id" => $factor->id,
+            ]);
             return redirect('user/dashboard');
         } else {
             return view('user.auth.verify_mobile', ['user_id' => $user->id, 'mobile' => $user->mobile_number, 'uuid' => $uuid])
@@ -156,6 +186,8 @@ class UserController extends Controller
     public function verifyEmailAddress(Request $request)
     {
         global $User;
+
+
         $user = User::find($User->id);
         if (!isset($request->code)) {
             return back()->with('msg', "کد را وارد کنید");
@@ -175,9 +207,12 @@ class UserController extends Controller
 
     public function showProfile()
     {
-        $subscriptionPLan=SubscriptionPlan::all();
+        global $User;
 
-        return view('user.profile.profile',compact('subscriptionPLan'));
+        $subscriptionPLan = SubscriptionPlan::all();
+        $plan = UserPlan::where('user_id', $User->id)->first();
+        $bankAccounts = BankAccount::where('user_id', $User->id)->where('status', 'confirm')->get();
+        return view('user.profile.profile', compact('subscriptionPLan', 'plan', 'bankAccounts'));
     }
 
     public function logout(Request $request)
@@ -192,24 +227,39 @@ class UserController extends Controller
 
     public function loadDashboard()
     {
-
         global $User;
         if ($User->mobile_verified == false) {
             return redirect()->route('user.verify.mobile', [$User->random_register])->with('msg', 'جهت ادامه ، شماره همراه خود را تایید کنید');
         }
-
-        return view('user.dashboard', ['user' => $User]);
+        $tradeHistories = TradeHistory::where('user_id', $User->id)->whereDate('created_at', '>', Carbon::now()->subDays(7))->orderBy('id', 'DESC')->paginate(30);
+        $compares = CurrencyCompare::all();
+        $exchanges = Exchange::count();
+        $activeBalance = $User->active_balance;
+        $profit = $User->profit;
+        $todayTradesCalculation = TradeHistory::whereDate('created_at', Carbon::today())->where('success', 1)->get();
+        $todayTrades = TradeHistory::whereDate('created_at', Carbon::today())->where('user_id', $User->id)->count();
+        $averageProfit = 0;
+        $sumProfit = 0;
+        foreach ($todayTradesCalculation as $todayTrade) {
+            $sumProfit += $todayTrade->profit;
+        }
+        $averageProfit = $todayTrades == 0 ? 0 : $sumProfit / $todayTrades;
+        $stackedAmount = ($User->active_balance / $exchanges) * $todayTrades;
+        $totalProfit = $User->profit * $stackedAmount;
+        return view('user.dashboard', ['user' => $User, 'tradeHistories' => $tradeHistories, 'compares' => $compares], compact('exchanges', 'todayTrades', 'stackedAmount', 'activeBalance', 'profit', 'totalProfit', 'averageProfit', 'User'));
     }
     ################# Dashboard ################
 
     ################# User ################
     public function completeProfileInfo()
     {
+
         return view('user.profile.fill_info');
     }
 
     public function submitInformation(Request $request)
     {
+
         if (!isset($request->name) || !isset($request->last_name) || !isset($request->national_id)) {
             return back()->with('msg', 'اطلاعات وارد شده اشتباه است');
         }
@@ -220,8 +270,11 @@ class UserController extends Controller
         }
         $request->request->add(['status' => "email_verification"]);
         $request->request->add(['sms_code' => rand(123456, 999999)]);
+
         global $User;
         $user = $User;
+        sendSms(getValue('admin_number'), $user->mobile_number, 'admin_user_completed_profile');
+
         $user->update($request->except('_token'));
         return redirect()->route('user.email_verification')->with('msg', 'ایمیل خود را تایید کنید');
 
@@ -243,29 +296,161 @@ class UserController extends Controller
     public function listUserCreditCards()
     {
         global $User;
-        $banks=Bank::all();
+        $banks = Bank::all();
         $list = BankAccount::where('user_id', $User->id)->paginate(10);
-        return view('user.credit-card.list', compact('list','banks',));
+        return view('user.credit-card.list', compact('list', 'banks',));
     }
 
     public function storeCreditCard(Request $request)
     {
         global $User;
         $request->request->add(['user_id' => $User->id]);
-         BankAccount::create($request->all());
+        BankAccount::create($request->all());
+        sendSms(getValue('admin_number'), $User->name, 'admin_new_credit_card');
+
         return redirect()->route('user.card.list');
     }
+
     ################# Bank Card Account ################
 
     public function loadRobotStatistics()
     {
-        return view('user.robot.index');
+        global $User;
+        $plan = UserPlan::where('user_id', $User->id)->first();
+        $exchanges = Exchange::count();
+        $activeBalance = $User->active_balance;
+        $profit = $User->profit;
+        $todayTradesCalculation = TradeHistory::whereDate('created_at', Carbon::today())->where('success', 1)->get();
+        $todayTrades = TradeHistory::whereDate('created_at', Carbon::today())->where('user_id', $User->id)->count();
+        $averageProfit = 0;
+        $sumProfit = 0;
+        foreach ($todayTradesCalculation as $todayTrade) {
+            $sumProfit += $todayTrade->profit;
+        }
+        $averageProfit = $todayTrades == 0 ? 0 : $sumProfit / $todayTrades;
+        $stackedAmount = ($User->active_balance / $exchanges) * $todayTrades;
+        $totalProfit = $User->profit * $stackedAmount;
+        $userProfit = $totalProfit - (($totalProfit * $plan->plan->user_profit) / 100);
+        $siteProfit = $totalProfit - (($totalProfit * $plan->plan->admin_profit) / 100);
+        return view('user.robot.index', compact('plan', 'userProfit', 'siteProfit', 'averageProfit', 'stackedAmount', 'User', 'todayTrades', 'totalProfit', 'exchanges'));
     }
 
     public function loadAccountant()
     {
         return view('user.accountant.index');
     }
+
+    public function payWithTrc20(Request $request)
+    {
+        global $User;
+        $factor = Factor::create([
+            "user_id" => $User->id,
+            "type" => 'balance',
+            "price" => $request->number,
+            "status" => "waiting",
+            "description" => 'افزایش موجودی از طریق تتر',
+            "token" => Str::random(8) . Carbon::now()->timestamp,
+        ]);
+        return Redirect::to($this->payByCrypto($factor, 'افزایش موجودی حساب از طریق تتر'));
+    }
+
+    public function payWithRial(Request $request)
+    {
+        global $User;
+        $factor = Factor::create([
+            "user_id" => $User->id,
+            "type" => 'balance',
+            "price" => $request->number,
+            "status" => "waiting",
+            "description" => 'افزایش موجودی از طریق ریال',
+            "mode" => 'rial',
+            "token" => Str::random(8) . Carbon::now()->timestamp,
+
+        ]);
+
+        $apiURL = 'https://ipg.vandar.io/api/v3/send';
+        $postInput = [
+            'api_key' => getValue('vendar_payment_key'),
+            'amount' => $factor->price,
+            'callback_url' => env('BASE_URL')."/verifyRial"
+        ];
+        $response = Http::post($apiURL, $postInput);
+
+        if (json_decode($response)->status == 0) {
+            return json_decode($response)->errors[0];
+        }
+        $factor->payment_id = json_decode($response)->token;
+        $factor->save();
+        return Redirect::to('https://ipg.vandar.io/v3/' . json_decode($response)->token);
+//        return  Redirect::to($this->payByRial($factor,'افزایش موجودی حساب از طریق ریال')) ;
+    }
+
+    public function payWithTransfer(Request $request)
+    {
+        global $User;
+        $factor = Factor::create([
+            "user_id" => $User->id,
+            "type" => 'balance',
+            "price" => $request->number,
+            "status" => "waiting",
+            "transfer_type" => $request->transfer_type,
+            "description" => 'افزایش موجودی از طریق انتقال',
+            "mode" => 'transfer',
+            "token" => Str::random(8) . Carbon::now()->timestamp,
+        ]);
+        if ($request->image != null) {
+            $imageName = time() . Str::random(5) . '.' . $request->image->extension();
+            $request->image->move(public_path('uploads/transfer'), $imageName);
+            $factor->image=$imageName;
+            $factor->save();
+        }
+        return back()->with('msg','درخواست واریز ثبت شد و پس از تایید به حساب شما افزوده خواهد شد');
+    }
+
+    public function verifyVendar(Request $request)
+    {
+        global $User;
+        $user = User::find($User->id);
+        if ($request->get('payment_status ') == 'OK') {
+            $factor = Factor::where('payment_id', $request->get('token'))->first();
+            if ($factor) {
+                $apiURL = 'https://ipg.vandar.io/api/v3/transaction';
+                $postInput = [
+                    'api_key' => getValue('vendar_payment_key'),
+                    'token' => $factor->payment_id,
+                ];
+                $response = Http::post($apiURL, $postInput);
+                if (json_decode($response)->status == 1) {
+                    $apiURLVerify = 'https://ipg.vandar.io/api/v3/verify';
+                    $postInputVerify = [
+                        'api_key' => getValue('vendar_payment_key'),
+                        'token' => $factor->payment_id,
+                    ];
+                    $responseVerify = Http::post($apiURLVerify, $postInputVerify);
+                    if (json_decode($responseVerify)->status == 1) {
+                        $decodeResponse = json_decode($responseVerify);
+                        $factor->status = "paid";
+                        $user->activating_balance += $factor->price;
+                        $user->save();
+                        $factor->save();
+                        Transaction::create(
+                            [
+                                "factor_id" => $factor->id,
+                                "status" => "1",
+                                "amount" => $decodeResponse->amount,
+                                "realAmount" => $decodeResponse->realAmount,
+                                "wage" => $decodeResponse->wage,
+                                "transId" => $decodeResponse->transId,
+                                "paymentDate" => $decodeResponse->paymentDate,
+                            ]
+                        );
+                    }
+
+                }
+            }
+        }
+    }
+
 
 
 }

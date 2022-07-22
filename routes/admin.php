@@ -3,8 +3,12 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\BankController;
+use App\Http\Controllers\CurrencyCompareController;
+use App\Http\Controllers\CurrencyController;
+use App\Http\Controllers\ExchangeController;
 use App\Http\Controllers\SubscriptionPlanController;
 use App\Http\Controllers\TicketCategoryController;
+use App\Http\Controllers\TradeHistoryController;
 use App\Models\TicketCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -50,6 +54,8 @@ Route::group(['middleware' => 'admin'], function () {
         Route::get('/edit/{id}', [AdminController::class, 'editUser'])->name('user.edit');
         Route::post('/update/{id}', [AdminController::class, 'updateUser'])->name('user.update');
         Route::get('/delete/{id}', [AdminController::class, 'deleteUser'])->name('user.delete');
+        Route::get('/profit', [AdminController::class, 'setUsersProfit'])->name('user.profit');
+        Route::post('/profit', [AdminController::class, 'storeUserProfit'])->name('user.profit.store');
 
     });
     ######## User  ########
@@ -75,13 +81,60 @@ Route::group(['middleware' => 'admin'], function () {
     });
     ######## Bank  ########
 
+    ######## Currency  ########
+    Route::group(['prefix' => 'currency'], function () {
+        Route::get('', [CurrencyController::class, 'list'])->name('currency.list');
+        Route::get('/new', [CurrencyController::class, 'add'])->name('currency.add');
+        Route::post('/store', [CurrencyController::class, 'store'])->name('currency.store');
+        Route::get('/edit/{id}', [CurrencyController::class, 'edit'])->name('currency.edit');
+        Route::post('/update/{id}', [CurrencyController::class, 'update'])->name('currency.update');
+        Route::get('/delete/{id}', [CurrencyController::class, 'delete'])->name('currency.delete');
+    });
+    ######## Currency  ########
+
+    ######## Exchange  ########
+    Route::group(['prefix' => 'exchange'], function () {
+        Route::get('', [ExchangeController::class, 'list'])->name('exchange.list');
+        Route::get('/new', [ExchangeController::class, 'add'])->name('exchange.add');
+        Route::post('/store', [ExchangeController::class, 'store'])->name('exchange.store');
+        Route::get('/edit/{id}', [ExchangeController::class, 'edit'])->name('exchange.edit');
+        Route::post('/update/{id}', [ExchangeController::class, 'update'])->name('exchange.update');
+        Route::get('/delete/{id}', [ExchangeController::class, 'delete'])->name('exchange.delete');
+    });
+    ######## Exchange  ########
+
+
+    ######## TradHistory  ########
+    Route::group(['prefix' => 'trade-history'], function () {
+        Route::get('', [TradeHistoryController::class, 'list'])->name('tradeHistory.list');
+        Route::get('/new', [TradeHistoryController::class, 'add'])->name('tradeHistory.add');
+        Route::post('/store', [TradeHistoryController::class, 'store'])->name('tradeHistory.store');
+        Route::get('/edit/{id}', [TradeHistoryController::class, 'edit'])->name('tradeHistory.edit');
+        Route::post('/update/{id}', [TradeHistoryController::class, 'update'])->name('tradeHistory.update');
+        Route::get('/delete/{id}', [TradeHistoryController::class, 'delete'])->name('tradeHistory.delete');
+    });
+    ######## TradHistory  ########
+
+
+    ######## Compare  ########
+    Route::group(['prefix' => 'compare'], function () {
+        Route::get('', [CurrencyCompareController::class, 'list'])->name('compare.list');
+        Route::get('/new', [CurrencyCompareController::class, 'add'])->name('compare.add');
+        Route::post('/store', [CurrencyCompareController::class, 'store'])->name('compare.store');
+        Route::get('/edit/{id}', [CurrencyCompareController::class, 'edit'])->name('compare.edit');
+        Route::post('/update/{id}', [CurrencyCompareController::class, 'update'])->name('compare.update');
+        Route::get('/delete/{id}', [CurrencyCompareController::class, 'delete'])->name('compare.delete');
+    });
+    ######## Compare  ########
+
+
     ######## Bank Accounts  ########
     Route::group(['prefix' => 'bank-account'], function () {
         Route::get('', [BankAccountController::class, 'listBankAccountsVerificationRequest'])->name('bankAccounts.list');
         Route::get('/accept/{id}', [BankAccountController::class, 'acceptBankAccount'])->name('bankAccounts.accept');
         Route::post('/reject/{id}', [BankAccountController::class, 'rejectBankAccount'])->name('bankAccounts.reject');
     });
-    ######## Bank  ########
+    ######## Bank Accounts  ########
 
 
     ######## Subscription Plan  ########

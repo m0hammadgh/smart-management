@@ -9,7 +9,7 @@
                 </div>
                 <p>موجودی فعال شما
                     <span>
-                                        <strong>700</strong> تتر
+                                        <strong>{{$activeBalance}}</strong> تتر
                                     </span>
                 </p>
                 <div class="clearfix"></div>
@@ -22,7 +22,7 @@
                 </div>
                 <p>تعداد صرافی
                     <span>
-                                        <strong>18</strong> مورد
+                                        <strong>{{$exchanges}}</strong> مورد
                                     </span>
                 </p>
                 <div class="clearfix"></div>
@@ -35,7 +35,7 @@
                 </div>
                 <p>تعداد خرید فروش ها
                     <span>
-                                        <strong>400</strong>
+                                        <strong>{{$todayTrades}}</strong>
                                     </span>
                 </p>
                 <div class="clearfix"></div>
@@ -48,7 +48,7 @@
                 </div>
                 <p> کل موجودی درگیر شده
                     <span>
-                                        <strong>800.000.000</strong> تتر
+                                        <strong>{{$stackedAmount}}</strong> تتر
                                     </span>
                 </p>
                 <div class="clearfix"></div>
@@ -61,7 +61,7 @@
                 </div>
                 <p>میانگین سود
                     <span>
-                                        <strong>48%</strong>
+                                        <strong>{{$profit??0}}%</strong>
                                     </span>
                 </p>
                 <div class="clearfix"></div>
@@ -74,7 +74,7 @@
                 </div>
                 <p> سود کل
                     <span>
-                                        <strong>2800</strong> تتر
+                                        <strong>{{$totalProfit}}</strong> تتر
                                     </span>
                 </p>
                 <div class="clearfix"></div>
@@ -85,9 +85,9 @@
                 <div class="feature-icon">
                     <i class="fa fa-percent  "></i>
                 </div>
-                <p> سهم شما(70%)
+                <p> سهم شما( {{getUserSubscriptionUserProfit($User->id)}}%)
                     <span>
-                                        <strong>2000</strong> تتر
+                                        <strong></strong> تتر
                                     </span>
                 </p>
                 <div class="clearfix"></div>
@@ -98,9 +98,9 @@
                 <div class="feature-icon">
                     <i class="fa fa-globe  "></i>
                 </div>
-                <p>پورسانت سایت (30%)
+                <p>پورسانت سایت( {{getUserSubscriptionAdminProfit($User->id)}}%)
                     <span>
-                                        <strong>800</strong> تتر
+                                        <strong></strong> تتر
                                     </span>
                 </p>
                 <div class="clearfix"></div>
@@ -196,84 +196,29 @@
                 <span>مقایسه قیمت ها </span>
             </div>
         </div>
-        <div class="col-lg-3 col-sm-12">
-            <div class="feature-box compare">
-                <div class="float-left">
-                    <h3>BTCUSDT</h3>
-                    <span>بالاترین نرخ ارز</span>
-                    <span class="highest"><strong>1.000.000</strong>USDT</span>
-                    <span>نام صرافی اینجا</span>
-                </div>
-                <div class="float-right">
-                    <p>درصد سود
-                        <span><i class="fa fa-sort-up"></i>3.2%</span>
-                    </p>
-                    <span>پایین ترین نرخ ارز</span>
-                    <span class="lowest"><strong>800.000</strong>USDT</span>
-                    <span>نام صرافی اینجا</span>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-sm-12">
-            <div class="feature-box compare">
-                <div class="float-left">
-                    <h3>BTCUSDT</h3>
-                    <span>بالاترین نرخ ارز</span>
-                    <span class="highest"><strong>1.000.000</strong>USDT</span>
-                    <span>نام صرافی اینجا</span>
-                </div>
-                <div class="float-right">
-                    <p>درصد سود
-                        <span><i class="fa fa-sort-up"></i>3.2%</span>
-                    </p>
-                    <span>پایین ترین نرخ ارز</span>
-                    <span class="lowest"><strong>800.000</strong>USDT</span>
-                    <span>نام صرافی اینجا</span>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-        </div>
 
-        <div class="col-lg-3 col-sm-12">
-            <div class="feature-box compare">
-                <div class="float-left">
-                    <h3>BTCUSDT</h3>
-                    <span>بالاترین نرخ ارز</span>
-                    <span class="highest"><strong>1.000.000</strong>USDT</span>
-                    <span>نام صرافی اینجا</span>
+        @foreach($compares as $compare)
+            <div class="col-lg-3 col-sm-12">
+                <div class="feature-box compare">
+                    <div class="float-left">
+                        <h3>{{$compare->currency->short_name}}</h3>
+                        <span>بالاترین نرخ ارز</span>
+                        <span class="highest"><strong>{{$compare->top_price}}</strong>USDT</span>
+                        <span>{{$compare->topPriceExchange->title}}</span>
+                    </div>
+                    <div class="float-right">
+                        <p>درصد سود
+                            <span><i class="fa fa-sort-up"></i>3.2%</span>
+                        </p>
+                        <span>پایین ترین نرخ ارز</span>
+                        <span class="lowest"><strong>{{$compare->low_price}}</strong>USDT</span>
+                        <span>{{$compare->lowPriceExchange->title}}</span>
+                    </div>
+                    <div class="clearfix"></div>
                 </div>
-                <div class="float-right">
-                    <p>درصد سود
-                        <span><i class="fa fa-sort-up"></i>3.2%</span>
-                    </p>
-                    <span>پایین ترین نرخ ارز</span>
-                    <span class="lowest"><strong>800.000</strong>USDT</span>
-                    <span>نام صرافی اینجا</span>
-                </div>
-                <div class="clearfix"></div>
             </div>
-        </div>
 
-        <div class="col-lg-3 col-sm-12">
-            <div class="feature-box compare">
-                <div class="float-left">
-                    <h3>BTCUSDT</h3>
-                    <span>بالاترین نرخ ارز</span>
-                    <span class="highest"><strong>1.000.000</strong>USDT</span>
-                    <span>نام صرافی اینجا</span>
-                </div>
-                <div class="float-right">
-                    <p>درصد سود
-                        <span><i class="fa fa-sort-up"></i>3.2%</span>
-                    </p>
-                    <span>پایین ترین نرخ ارز</span>
-                    <span class="lowest"><strong>800.000</strong>USDT</span>
-                    <span>نام صرافی اینجا</span>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-        </div>
+        @endforeach
 
     </div>
 </div>
@@ -299,115 +244,23 @@
                         <th>درصد سود</th>
                         <th>نتیجه</th>
                     </tr>
-                    <tr class="light-color">
-                        <td>#694414</td>
-                        <td><i class="far fa-bitcoin"></i> بیت کوین (BTC)</td>
-                        <td><strong>400</strong>تتر</td>
-                        <td>اسم صرافی</td>
-                        <td><strong>370</strong>تتر</td>
-                        <td>اسم صرافی</td>
-                        <td>1400/08/28</td>
-                        <td>3.2%</td>
-                        <td>موفق</td>
-                    </tr>
-                    <tr class="grey-color">
-                        <td>#694414</td>
-                        <td><i class="far fa-bitcoin"></i> بیت کوین (BTC)</td>
-                        <td><strong>400</strong>تتر</td>
-                        <td>اسم صرافی</td>
-                        <td><strong>370</strong>تتر</td>
-                        <td>اسم صرافی</td>
-                        <td>1400/08/28</td>
-                        <td>3.2%</td>
-                        <td>موفق</td>
-                    </tr>
-                    <tr class="light-color">
-                        <td>#694414</td>
-                        <td><i class="far fa-bitcoin"></i> بیت کوین (BTC)</td>
-                        <td><strong>400</strong>تتر</td>
-                        <td>اسم صرافی</td>
-                        <td><strong>370</strong>تتر</td>
-                        <td>اسم صرافی</td>
-                        <td>1400/08/28</td>
-                        <td>3.2%</td>
-                        <td>موفق</td>
-                    </tr>
-                    <tr class="grey-color">
-                        <td>#694414</td>
-                        <td><i class="far fa-bitcoin"></i> بیت کوین (BTC)</td>
-                        <td><strong>400</strong>تتر</td>
-                        <td>اسم صرافی</td>
-                        <td><strong>370</strong>تتر</td>
-                        <td>اسم صرافی</td>
-                        <td>1400/08/28</td>
-                        <td>3.2%</td>
-                        <td>موفق</td>
-                    </tr>
-                    <tr class="light-color">
-                        <td>#694414</td>
-                        <td><i class="far fa-bitcoin"></i> بیت کوین (BTC)</td>
-                        <td><strong>400</strong>تتر</td>
-                        <td>اسم صرافی</td>
-                        <td><strong>370</strong>تتر</td>
-                        <td>اسم صرافی</td>
-                        <td>1400/08/28</td>
-                        <td>3.2%</td>
-                        <td>موفق</td>
-                    </tr>
-                    <tr class="grey-color">
-                        <td>#694414</td>
-                        <td><i class="far fa-bitcoin"></i> بیت کوین (BTC)</td>
-                        <td><strong>400</strong>تتر</td>
-                        <td>اسم صرافی</td>
-                        <td><strong>370</strong>تتر</td>
-                        <td>اسم صرافی</td>
-                        <td>1400/08/28</td>
-                        <td>3.2%</td>
-                        <td>موفق</td>
-                    </tr>
-                    <tr class="light-color">
-                        <td>#694414</td>
-                        <td><i class="far fa-bitcoin"></i> بیت کوین (BTC)</td>
-                        <td><strong>400</strong>تتر</td>
-                        <td>اسم صرافی</td>
-                        <td><strong>370</strong>تتر</td>
-                        <td>اسم صرافی</td>
-                        <td>1400/08/28</td>
-                        <td>3.2%</td>
-                        <td>موفق</td>
-                    </tr>
-                    <tr class="grey-color">
-                        <td>#694414</td>
-                        <td><i class="far fa-bitcoin"></i> بیت کوین (BTC)</td>
-                        <td><strong>400</strong>تتر</td>
-                        <td>اسم صرافی</td>
-                        <td><strong>370</strong>تتر</td>
-                        <td>اسم صرافی</td>
-                        <td>1400/08/28</td>
-                        <td>3.2%</td>
-                        <td>موفق</td>
-                    </tr>
+                    @foreach($tradeHistories as $trade)
+                        <tr class="@if($loop->index%2==0) light-color @else grey-color @endif">
+                            <td>#{{$trade->id}}</td>
+                            <td>{{$trade->currency->persian_name}}</td>
+                            <td>${{$trade->sell_price}}</td>
+                            <td>{{$trade->sellerExchange->title}}</td>
+                            <td>${{$trade->buy_price}}</td>
+                            <td>{{$trade->buyerExchange->title}}</td>
+                            <td>{!! convertCreateAtToPersianDateTime($trade->date) !!}</td>
+                            <td>{{$trade->profit}}%</td>
+                            <td>موفق</td>
+                        </tr>
+
+                    @endforeach
+
                 </table>
-                <div class="pagination-box">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item "><a class="page-link active" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                    <span>تعداد صفحات<strong>11</strong></span>
-                </div>
+                {{ $tradeHistories->links('vendors.pagination.cutom_pagination') }}
             </div>
         </div>
     </div>
