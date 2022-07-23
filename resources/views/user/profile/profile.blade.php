@@ -79,7 +79,7 @@
 
                     </p>
                     <div class="clearfix"></div>
-                    <a class="btn btn-success" style="margin-top: 10px">ارتقا حساب</a>
+                    <a href="/user/subscription" class="btn btn-success" style="margin-top: 10px">ارتقا حساب</a>
 
                 </div>
 
@@ -95,7 +95,7 @@
                                     </span>
                     </p>
                     <div class="clearfix"></div>
-                    <a class="btn btn-success" style="margin-top: 10px">افزایش موجودی </a>
+                    <a href="/user/accountant" class="btn btn-success" style="margin-top: 10px">افزایش موجودی </a>
 
                 </div>
             </div>
@@ -147,68 +147,7 @@
 
 
         </div>
-        <div class="d-flex align-items-center px-3 my-4">
-            <div class="squre shadow "></div>
-            <h3 class="h3-font">طرح عضویت</h3>
-        </div>
 
-        <section>
-            <div class="container">
-                <div class="row mt-3 text-center g-3">
-                    @foreach($subscriptionPLan as $plan)
-                        <div class="col-md-4 d-flex flex-column align-items-center justify-content-center">
-                            <div for="radio-{{$plan->id}}" class="card text-bg-success mb-3 w-100 "  style="max-width: 20rem;background: beige">
-                                <div class="card-header text-center fs-3 py-4">{{$plan->title}}</div>
-                                <div class="card-body d-flex justify-content-between ">
-                                    <h5 class="card-title">سود سایت</h5>
-                                    <h5 class="card-title">{{$plan->admin_profit}} درصد</h5>
-                                </div>
-                                <div class="card-body d-flex justify-content-between ">
-                                    <h5 class="card-title">سود شما</h5>
-                                    <h5 class="card-title">{{$plan->user_profit}} درصد</h5>
-                                </div>
-                                <div class="card-body d-flex justify-content-between ">
-                                    <h5 class="card-title">مدت زمان</h5>
-                                    <h5 class="card-title">{{$plan->duration}} روز</h5>
-                                </div>
-                                <div class="card-body d-flex justify-content-between ">
-                                    <h5 class="card-title">قیمت</h5>
-                                    <h5 class="card-title">  {{$plan->price}} $</h5>
-                                </div>
-                                <div class="card-body d-flex justify-content-between ">
-                                    <h5 class="card-title">حداکثر واریز</h5>
-                                    <h5 class="card-title"> ریال </h5>
-                                </div>
-                                <div class="card-body d-flex justify-content-between ">
-                                    <h5 class="card-title">حداکثر برداشت تتر</h5>
-                                    <h5 class="card-title">{{$plan->withdraw_cryto}} تتر</h5>
-                                </div>
-                                <div class="card-body d-flex justify-content-between ">
-                                    <h5 class="card-title">حداکثر برداشت ریال</h5>
-                                    <h5 class="card-title">{{$plan->withdraw_rial}} </h5>
-                                </div>
-                            </div>
-
-                                <div class="text-center">
-                                    @if($plan->id!=4)
-                                    <input type="radio" id="radio-{{$plan->id}}" name="subscription" value="{{$plan->id}}">
-                                    @endif
-                                </div>
-                        </div>
-
-                    @endforeach
-
-                </div>
-            </div>
-        </section>
-
-        <section class="col-12">
-            <div class="d-flex justify-content-around   py-4 rounded-4">
-                <button class="bg-info text-light rounded-3 border-0 py-3 px-md-5">پرداخت مستقیم</button>
-                <button class="bg-info text-light rounded-3 border-0 py-3 px-md-5">پرداخت از کیف پول</button>
-            </div>
-
-        </section>
     </div>
 @endsection
 

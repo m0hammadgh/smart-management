@@ -75,6 +75,8 @@ function getUserStatus($status)
         return '<label class="badge badge-info"> تایید ایمیل </label>';
     } else if ($status == 'block') {
         return '<label class="badge badge-info"> مسدود</label>';
+    } else if ($status == 'review_document') {
+        return '<label class="badge badge-info"> فعالسازی مدارک</label>';
     } else
         return '<label class="badge badge-warning"> غیر فعال</label>';
 
@@ -127,7 +129,7 @@ function getUserInfo($id)
 
     $user = User::find($id);
 
-    return '<label class="badge badge-info" >' . $user->name . ' ' . $user->last_name . '</label>';
+    return '<label class="badge badge-info" >' . $user->name ??"" . ' ' . $user->last_name ??"" . '</label>';
 }
 
 function getBankInfo($id)
@@ -167,6 +169,84 @@ function getUserSubscriptionUserProfit($id)
 
 }
 
+function getWithdrawType($type)
+{
+    if ($type == "rial") {
+        return "واریز به حساب";
+    } else {
+        return "تتر";
+    }
+
+
+}
+
+function getTypeOfFactor($type)
+{
+    if ($type == "rial") {
+        return "درگاه بانکی";
+    } else if ($type == "tether") {
+        return "تتر";
+    } else {
+        return "انتقال";
+    }
+
+}
+
+function calculateOnlineTime($type, $date)
+{
+    $remaining = '';
+    if ($type == "rial") {
+        return Carbon::parse($date)->addHours(36)->diffInHours(Carbon::now());
+    } else if ($type == "tether") {
+        return Carbon::parse($date)->addHours(48)->diffInHours(Carbon::now());
+
+    } else if ($type == "transfer") {
+        return Carbon::parse($date)->addHours(48)->diffInHours(Carbon::now());
+    }
+    return $remaining;
+
+}
+function getFactorStatus($status)
+{
+    $remaining = '';
+    if ($status == "waiting") {
+        return "در انتظار";
+    } else if ($status == "paid") {
+        return "پرداخت شده";
+
+    }
+    else {
+        return "لفو شده";
+
+    }
+
+}
+
+function calculateOnlineTimeNote($type): string
+{
+    $remaining = '';
+    if ($type == "rial") {
+        return "36 ساعت بعد از انتقال وارد معامله می شود ";
+    } else if ($type == "tether") {
+        return "48 ساعت بعد از انتقال وارد معامله می شود ";
+
+    } else if ($type == "transfer") {
+        return "48 ساعت بعد از انتقال وارد معامله می شود ";
+    }
+    return $remaining;
+
+}
+
+function getWithdrawStatus($status)
+{
+    if ($status == "confirm") {
+        return "تایید شده";
+    } else if ($status == "new") {
+        return "درانتظار";
+    } else {
+        return "رد شده";
+    }
+}
 
 function getUserSubscriptionAdminProfit($id)
 {

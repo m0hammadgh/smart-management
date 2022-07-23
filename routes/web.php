@@ -18,3 +18,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/verifyRial',[UserController::class,'verifyVendar']);
+Route::get('/verifySubscription',[UserController::class,'verifySubscriptionPurchase']);

@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AppSettingController;
 use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\BankController;
 use App\Http\Controllers\CurrencyCompareController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\ExchangeController;
+use App\Http\Controllers\FactorController;
 use App\Http\Controllers\SubscriptionPlanController;
 use App\Http\Controllers\TicketCategoryController;
 use App\Http\Controllers\TradeHistoryController;
@@ -116,6 +118,15 @@ Route::group(['middleware' => 'admin'], function () {
     ######## TradHistory  ########
 
 
+    ######## Factor  ########
+    Route::group(['prefix' => 'factor'], function () {
+        Route::get('', [FactorController::class, 'list'])->name('factor.list');
+        Route::post('/accept/{id}', [TradeHistoryController::class, 'update'])->name('factor.accept');
+        Route::get('/reject/{id}', [TradeHistoryController::class, 'delete'])->name('factor.reject');
+    });
+    ######## Factor  ########
+
+
     ######## Compare  ########
     Route::group(['prefix' => 'compare'], function () {
         Route::get('', [CurrencyCompareController::class, 'list'])->name('compare.list');
@@ -139,12 +150,12 @@ Route::group(['middleware' => 'admin'], function () {
 
     ######## Subscription Plan  ########
     Route::group(['prefix' => 'subscription'], function () {
-        Route::get('', [SubscriptionPlanController::class, 'listPlans'])->name('subscription.list');
-        Route::get('/new', [SubscriptionPlanController::class, 'addPlan'])->name('subscription.add');
-        Route::post('/store', [SubscriptionPlanController::class, 'storeSubscription'])->name('subscription.store');
-        Route::get('/edit/{id}', [SubscriptionPlanController::class, 'editPlan'])->name('subscription.edit');
-        Route::post('/update/{id}', [SubscriptionPlanController::class, 'updateSubscription'])->name('subscription.update');
-        Route::get('/delete/{id}', [SubscriptionPlanController::class, 'delete'])->name('subscription.delete');
+        Route::get('', [SubscriptionPlanController::class, 'listPlans'])->name('subscription.admin.list');
+        Route::get('/new', [SubscriptionPlanController::class, 'addPlan'])->name('subscription.admin.add');
+        Route::post('/store', [SubscriptionPlanController::class, 'storeSubscription'])->name('subscription.admin.store');
+        Route::get('/edit/{id}', [SubscriptionPlanController::class, 'editPlan'])->name('subscription.admin.edit');
+        Route::post('/update/{id}', [SubscriptionPlanController::class, 'updateSubscription'])->name('subscription.admin.update');
+        Route::get('/delete/{id}', [SubscriptionPlanController::class, 'delete'])->name('subscription.admin.delete');
     });
     ######## Subscription Plan  ########
 
@@ -157,5 +168,14 @@ Route::group(['middleware' => 'admin'], function () {
         Route::post('/update/{id}', [TicketCategoryController::class, 'update'])->name('ticketCategory.update');
         Route::get('/delete/{id}', [TicketCategoryController::class, 'delete'])->name('ticketCategory.delete');
     });
-    ######## Subscription Plan  ########
+    ######## Ticket Category  ########
+
+
+    ######## Settings  ########
+    Route::group(['prefix' => 'settings'], function () {
+        Route::get('', [AppSettingController::class, 'showContentSetting'])->name('settings.content');
+        Route::post('/new', [AppSettingController::class, 'showContentSettingUpdate'])->name('settings.content.update');
+
+    });
+    ######## Settings  ########
 });

@@ -27,7 +27,7 @@ class AdminController extends Controller
 
     public function doLogin(Request $request)
     {
-        Admin::create(['user_name'=>$request->user_name,"password"=>encrypt($request->password)]);
+
         if (!isset($request->user_name) || !isset($request->password)) {
             return back()->with('msg', 'کاربری یافت نشد');
         }
@@ -197,6 +197,10 @@ class AdminController extends Controller
         $doc=DocumentVerificationRequest::find($id);
         $doc->status='confirm';
         $doc->save();
+        $user=User::find($doc->user_id);
+        $user->status='active';
+        $user->save();
+
         return back()->with('msg','درخواست تایید شد');
 
     }

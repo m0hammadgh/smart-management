@@ -18,7 +18,7 @@
                 <div class="card">
                     <div class="card-body">
                         <form class="needs-validation" novalidate="" method="post" enctype="multipart/form-data"
-                              action="@if(isset($edit)) {{route('subscription.update',$edit->id)}} @else {{route('subscription.store')}} @endif">
+                              action="@if(isset($edit)) {{route('subscription.admin.update',$edit->id)}} @else {{route('subscription.admin.store')}} @endif">
 
                             @csrf
                             <div class="row g-3 m-t-5">

@@ -116,25 +116,25 @@
                     <i class="fa fa-square-full"></i>
                     <span>آمار سود ربات</span>
                 </div>
-                <div class="period-list">
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-                            3 ماه گذشته
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                            <li><a class="dropdown-item " href="#">3 ماه گذشته</a></li>
-                            <li><a class="dropdown-item" href="#"> 6 ماه گذشته</a></li>
-                            <li><a class="dropdown-item" href="#">  12 ماه گذشته</a></li>
+{{--                <div class="period-list">--}}
+{{--                    <div class="dropdown">--}}
+{{--                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">--}}
+{{--                            3 ماه گذشته--}}
+{{--                        </button>--}}
+{{--                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">--}}
+{{--                            <li><a class="dropdown-item " href="#">3 ماه گذشته</a></li>--}}
+{{--                            <li><a class="dropdown-item" href="#"> 6 ماه گذشته</a></li>--}}
+{{--                            <li><a class="dropdown-item" href="#">  12 ماه گذشته</a></li>--}}
 
-                        </ul>
-                    </div>
-                    <script type="text/javascript">
-                        var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))
-                        var dropdownList = dropdownElementList.map(function(dropdownToggleEl) {
-                            return new bootstrap.Dropdown(dropdownToggleEl)
-                        })
-                    </script>
-                </div>
+{{--                        </ul>--}}
+{{--                    </div>--}}
+{{--                    <script type="text/javascript">--}}
+{{--                        var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))--}}
+{{--                        var dropdownList = dropdownElementList.map(function(dropdownToggleEl) {--}}
+{{--                            return new bootstrap.Dropdown(dropdownToggleEl)--}}
+{{--                        })--}}
+{{--                    </script>--}}
+{{--                </div>--}}
                 <div class="clearfix"></div>
                 <div class="chart-box">
                     <div>
@@ -143,7 +143,7 @@
 
                     <div class="summary">
                         <span class="">جمع کل سود:</span>
-                        <span class=""><strong>3.2</strong>درصد</span>
+                        <span class=""><strong>0</strong>درصد</span>
                         <div class="clearfix"></div>
                     </div>
                 </div>
@@ -155,25 +155,25 @@
                     <i class="fa fa-square-full"></i>
                     <span> آمار درامد من به دلار</span>
                 </div>
-                <div class="period-list">
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-                            3 ماه گذشته
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                            <li><a class="dropdown-item " href="#">3 ماه گذشته</a></li>
-                            <li><a class="dropdown-item" href="#"> 6 ماه گذشته</a></li>
-                            <li><a class="dropdown-item" href="#">  12 ماه گذشته</a></li>
+{{--                <div class="period-list">--}}
+{{--                    <div class="dropdown">--}}
+{{--                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">--}}
+{{--                            3 ماه گذشته--}}
+{{--                        </button>--}}
+{{--                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">--}}
+{{--                            <li><a class="dropdown-item " href="#">3 ماه گذشته</a></li>--}}
+{{--                            <li><a class="dropdown-item" href="#"> 6 ماه گذشته</a></li>--}}
+{{--                            <li><a class="dropdown-item" href="#">  12 ماه گذشته</a></li>--}}
 
-                        </ul>
-                    </div>
-                    <script type="text/javascript">
-                        var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))
-                        var dropdownList = dropdownElementList.map(function(dropdownToggleEl) {
-                            return new bootstrap.Dropdown(dropdownToggleEl)
-                        })
-                    </script>
-                </div>
+{{--                        </ul>--}}
+{{--                    </div>--}}
+{{--                    <script type="text/javascript">--}}
+{{--                        var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))--}}
+{{--                        var dropdownList = dropdownElementList.map(function(dropdownToggleEl) {--}}
+{{--                            return new bootstrap.Dropdown(dropdownToggleEl)--}}
+{{--                        })--}}
+{{--                    </script>--}}
+{{--                </div>--}}
                 <div class="clearfix"></div>
                 <div class="chart-box">
                     <div>
@@ -181,7 +181,7 @@
                     </div>
                     <div class="summary">
                         <span class="">جمع کل درامد من:</span>
-                        <span class=""><strong>802.000.000</strong>USDT</span>
+                        <span class=""><strong>0</strong>USDT</span>
                         <div class="clearfix"></div>
                     </div>
                 </div>

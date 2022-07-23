@@ -52,7 +52,7 @@
                         <a class="nav-link menu-title link-nav" ><i data-feather="list"></i><span>حساب های بانکی</span></a>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title link-nav" href="#"><i data-feather="list"></i><span>طرح های ویژه</span></a>
+                        <a class="nav-link menu-title link-nav" href="{{route('subscription.list')}}"><i data-feather="list"></i><span>طرح های ویژه</span></a>
                     </li>
 
                     <li class="sidebar-main-title">

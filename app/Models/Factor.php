@@ -13,6 +13,7 @@ class Factor extends Model
         'user_id',
         'discount_id',
         'price',
+        'subscription_id',
         'discounted_price',
         'status',
         'transfer_type',

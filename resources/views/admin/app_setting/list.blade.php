@@ -1,15 +1,15 @@
 @extends('admin.layout.layout')
-@section('title','  طرح عضویت')
+@section('title',' لیست خرید و فروش ربات')
 @section('page')
     <div class="container-fluid">
         <div class="page-header">
             <div class="row">
                 <div class="col-sm-6">
-                    <h3>لیست طرح های عضویت</h3>
+                    <h3>سابقه خرید و فروش</h3>
 
                 </div>
                 <div class="col-sm-6 text-end">
-                    <a class="btn btn-success" href="{{route('subscription.admin.add')}}">افزودن</a>
+                    <a class="btn btn-success" href="{{route('tradeHistory.add')}}">افزودن</a>
 
                 </div>
             </div>
@@ -29,10 +29,12 @@
 
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th class="text-center"  scope="col">عنوان طرح</th>
-                                        <th class="text-center"  scope="col">مدت</th>
-                                        <th class="text-center"  scope="col">قیمت</th>
+                                        <th class="text-center"  scope="col">کاربر</th>
                                         <th class="text-center"  scope="col">درصد سود</th>
+                                        <th class="text-center"  scope="col">قیمت خرید - قیمت فروش</th>
+                                        <th class="text-center"  scope="col">خرید از - خرید به</th>
+                                        <th class="text-center" scope="col">رمز ارز</th>
+                                        <th class="text-center"  scope="col">زمان</th>
                                         <th class="text-center"  scope="col">عملیات</th>
                                     </tr>
                                     </thead>
@@ -40,13 +42,15 @@
                                     @foreach($list as $item)
                                         <tr>
                                             <th scope="row">{{$loop->index +1}}</th>
-                                            <td class="text-center" >{{$item->title ?? '' }}</td>
-                                            <td class="text-center" >{{$item->duration ?? '' }}</td>
-                                            <td class="text-center" >{{$item->price ?? '' }} $</td>
-                                            <td class="text-center" >{{$item->user_profit ?? '' }}  - {{$item->admin_profit ?? '' }}  </td>
+                                            <td class="text-center" >{{$item->user->name ?? '' }} {{$item->user->last_name ?? '' }}</td>
+                                            <td class="text-center" >{{$item->profit ?? '' }}</td>
+                                            <td class="text-center" >{{$item->buy_price ?? '' }} - {{$item->sell_price ?? '' }}</td>
+                                            <td class="text-center" >{{$item->buyerExchange->title ?? '' }} - {{$item->sellerExchange->title ?? '' }}</td>
+                                            <td class="text-center" >{{$item->currency->short_name ?? '' }} </td>
+                                            <td class="text-center" >{!! convertCreateAtToPersianDateTime($item->date) !!} </td>
                                             <td class="text-center">
-                                                <a href="{{route('subscription.admin.edit',[$item->id])}}"><i class="fa fa-edit"></i></a>
-                                                <a class="delete-item" href="{{route('subscription.admin.delete',[$item->id])}}"><i class="fa fa-remove"></i></a>
+                                                <a href="{{route('tradeHistory.edit',[$item->id])}}"><i class="fa fa-edit"></i></a>
+                                                <a class="delete-item" href="{{route('tradeHistory.delete',[$item->id])}}"><i class="fa fa-remove"></i></a>
                                             </td>
                                         </tr>
                                     @endforeach

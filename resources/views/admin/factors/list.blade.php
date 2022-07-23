@@ -1,15 +1,15 @@
 @extends('admin.layout.layout')
-@section('title','  طرح عضویت')
+@section('title','فاکتور ها')
 @section('page')
     <div class="container-fluid">
         <div class="page-header">
             <div class="row">
                 <div class="col-sm-6">
-                    <h3>لیست طرح های عضویت</h3>
+                    <h3>لیست بانک ها</h3>
 
                 </div>
                 <div class="col-sm-6 text-end">
-                    <a class="btn btn-success" href="{{route('subscription.admin.add')}}">افزودن</a>
+                    <a class="btn btn-success" href="{{route('bank.add')}}">افزودن</a>
 
                 </div>
             </div>
@@ -29,10 +29,8 @@
 
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th class="text-center"  scope="col">عنوان طرح</th>
-                                        <th class="text-center"  scope="col">مدت</th>
-                                        <th class="text-center"  scope="col">قیمت</th>
-                                        <th class="text-center"  scope="col">درصد سود</th>
+                                        <th class="text-center"  scope="col">نام</th>
+                                        <th class="text-center"  scope="col">آیکون </th>
                                         <th class="text-center"  scope="col">عملیات</th>
                                     </tr>
                                     </thead>
@@ -41,12 +39,10 @@
                                         <tr>
                                             <th scope="row">{{$loop->index +1}}</th>
                                             <td class="text-center" >{{$item->title ?? '' }}</td>
-                                            <td class="text-center" >{{$item->duration ?? '' }}</td>
-                                            <td class="text-center" >{{$item->price ?? '' }} $</td>
-                                            <td class="text-center" >{{$item->user_profit ?? '' }}  - {{$item->admin_profit ?? '' }}  </td>
+                                            <td class="text-center" >{!! getBladeImage($item->icon,'bank') !!}</td>
                                             <td class="text-center">
-                                                <a href="{{route('subscription.admin.edit',[$item->id])}}"><i class="fa fa-edit"></i></a>
-                                                <a class="delete-item" href="{{route('subscription.admin.delete',[$item->id])}}"><i class="fa fa-remove"></i></a>
+                                                <a href="{{route('bank.edit',[$item->id])}}"><i class="fa fa-edit"></i></a>
+                                                <a class="delete-item" href="{{route('bank.delete',[$item->id])}}"><i class="fa fa-remove"></i></a>
                                             </td>
                                         </tr>
                                     @endforeach

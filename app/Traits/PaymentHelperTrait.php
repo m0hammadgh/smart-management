@@ -10,7 +10,6 @@ trait PaymentHelperTrait
     function payByCrypto(Factor $factor, $description): string
     {
         $curl = curl_init();
-
         curl_setopt_array($curl, array(
             CURLOPT_URL => 'https://api.nowpayments.io/v1/invoice',
             CURLOPT_RETURNTRANSFER => true,
@@ -21,7 +20,7 @@ trait PaymentHelperTrait
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => '{
-  "price_amount": ' . $factor->price . ',
+  "price_amount": ' . str_replace(',', '', $factor->price) . ',
   "price_currency": "usd",
   "order_id": ' . $factor->id . ',
   "order_description": "' . $description . '",
@@ -56,7 +55,7 @@ trait PaymentHelperTrait
         ];
         $response = Http::post($apiURL, $postInput);
 
-        dd( json_decode($response));
+        dd(json_decode($response));
         $factor->payment_id = json_decode($response)->id;
         $factor->save();
         return json_decode($response)->invoice_url;

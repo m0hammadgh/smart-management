@@ -10,6 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/assets/user/css/style.css">
 
+
     <link rel="stylesheet/less" type="text/css" href="/assets/user/css/styles.less" />
     <title>True Impact Partners</title>
 </head>
@@ -91,21 +92,21 @@
                             <i class="fa fa-money-bill" aria-hidden="true"></i>حسابداری
                         </a>
                     </li>
-                    <li class="nav-item">
+             {{--       <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="fa fa-money-bill-wave " aria-hidden="true"></i>کار بانکی
                         </a>
-                    </li>
+                    </li>--}}
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{route('subscription.list')}}" class="nav-link">
                             <i class="fa fa-user-plus " aria-hidden="true"></i>طرح عضویت
                         </a>
                     </li>
-                    <li class="nav-item">
+               {{--     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="fa fa-headset " aria-hidden="true"></i>پشتیبانی
                         </a>
-                    </li>
+                    </li>--}}
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="fa fa-arrow-right " aria-hidden="true"></i>خروج
@@ -137,7 +138,7 @@
                                 <i class="fa fa-search"></i>
                             </a>
                             <a href="#">
-                                <i class="far fa-bell"><strong class="tool-tip">14</strong></i>
+                                <i class="far fa-bell"><strong class="tool-tip">0</strong></i>
 
                             </a>
 

@@ -25,7 +25,7 @@ class SubscriptionPlanController extends Controller
         }
 
         SubscriptionPlan::create($request->all());
-        return redirect()->route('subscription.list')->with('msg', 'با موفقیت افزوده شد');
+        return redirect()->route('subscription.admin.list')->with('msg', 'با موفقیت افزوده شد');
     }
 
     function editPlan($id)
@@ -45,7 +45,7 @@ class SubscriptionPlanController extends Controller
         }
 
         $edit->update($request->all());
-        return redirect()->route('subscription.list')->with('msg', 'با موفقیت به روز رسانی شد');
+        return redirect()->route('subscription.admin.list')->with('msg', 'با موفقیت به روز رسانی شد');
     }
 
     function delete($id)
@@ -55,6 +55,6 @@ class SubscriptionPlanController extends Controller
             return back()->with('msg', 'موردی یافت نشد');
         }
         $edit->delete();
-        return redirect()->route('subscription.list')->with('msg', 'با موفقیت حذف شد');
+        return redirect()->route('subscription.admin.list')->with('msg', 'با موفقیت حذف شد');
     }
 }

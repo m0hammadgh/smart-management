@@ -39,6 +39,11 @@ Route::group(['middleware' => 'user'], function () {
         Route::post('/store', [UserController::class, 'storeCreditCard'])->name('user.card.store');
     });
 
+    Route::group(['prefix' => 'subscription'], function () {
+        Route::get('/', [UserController::class, 'showSubscriptionPage'])->name('subscription.list');
+        Route::post('/buy', [UserController::class, 'buySubscriptionPlanByTether'])->name('subscription.buy');
+    });
+
 
     Route::group(['prefix' => 'robot'], function () {
         Route::get('/', [UserController::class, 'loadRobotStatistics'])->name('robot.index');
@@ -50,5 +55,10 @@ Route::group(['middleware' => 'user'], function () {
         Route::post('/rial', [UserController::class, 'payWithRial'])->name('pay.rial');
         Route::post('/transfer', [UserController::class, 'payWithTransfer'])->name('pay.transfer');
     });
+    Route::group(['prefix' => 'withdraw'], function () {
+        Route::post('/tether', [UserController::class, 'withdrawTether'])->name('withdraw.tether');
+        Route::post('/rial', [UserController::class, 'withdrawRial'])->name('withdraw.rial');
+    });
+
 
 });

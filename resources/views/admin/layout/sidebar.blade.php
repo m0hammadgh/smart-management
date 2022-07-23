@@ -3,21 +3,6 @@
         <a class="setting-primary" href="javascript:void(0)"><i data-feather="settings"></i></a><img
             class="img-90 rounded-circle" src="/assets/mirror/images/1.png" alt=""/>
         <a href="user-profile.html"><h6 class="mt-3 f-14 f-w-600">پنل مدیریت</h6></a>
-        <p class="mb-0 font-roboto">آخرین ورود :</p>
-        <ul>
-            <li>
-                <span><span class="counter">1</span> </span>
-                <p>تعداد کاربران</p>
-            </li>
-            <li>
-                <span>2 </span>
-                <p>کاربر جدید</p>
-            </li>
-            <li>
-                <span><span class="counter">95.2</span> هزار</span>
-                <p>سود دیروز</p>
-            </li>
-        </ul>
     </div>
     <nav>
         <div class="main-navbar">
@@ -95,8 +80,8 @@
                     <li class="dropdown">
                         <a class="nav-link menu-title" href="javascript:void(0)"><i data-feather="edit-3"></i><span>طرح های عضویت</span></a>
                         <ul class="nav-submenu menu-content">
-                            <li><a href="{{route('subscription.list')}}">طرح های عضویت</a></li>
-                            <li><a href="{{route('subscription.add')}}">افزودن طرح عضویت</a></li>
+                            <li><a href="{{route('subscription.admin.list')}}">طرح های عضویت</a></li>
+                            <li><a href="{{route('subscription.admin.add')}}">افزودن طرح عضویت</a></li>
                         </ul>
                     </li>
 
@@ -131,6 +116,14 @@
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav" href="{{route('bank.list')}}"><i data-feather="zap"></i><span>بانک ها</span></a>
+                    </li>
+                    <li class="sidebar-main-title">
+                        <div>
+                            <h6>تنظیمات سایت</h6>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a class="nav-link menu-title link-nav" href="{{route('settings.content')}}"><i data-feather="zap"></i><span> محتوا و پیام ها</span></a>
                     </li>
                 </ul>
 

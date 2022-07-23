@@ -15,6 +15,7 @@ use App\Models\TradeHistory;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\UserPlan;
+use App\Models\Withdraw;
 use App\Traits\PaymentHelperTrait;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
@@ -180,7 +181,13 @@ class UserController extends Controller
 
     public function showEmailVerification()
     {
-        return view('user.auth.verify_email');
+        global $User;
+        $user = User::find($User->id);
+        $user->email_verified = true;
+        $user->status = 'review_document';
+        $user->save();
+        DocumentVerificationRequest::create(["user_id" => $user->id, "type" => "national_card", "file" => $user->national_card]);
+        return redirect()->route('user.dashboard')->with('msg', 'حساب شما پس از تایید مدارک توسط کارشناسان فعال خواهد شد');
     }
 
     public function verifyEmailAddress(Request $request)
@@ -337,7 +344,12 @@ class UserController extends Controller
 
     public function loadAccountant()
     {
-        return view('user.accountant.index');
+        global $User;
+        $bankAccounts = BankAccount::where('user_id', $User->id)->where('status', 'confirm')->get();
+        $withdraws = Withdraw::where('user_id', $User->id)->orderBy('id', 'DESC')->paginate(10);
+        $variz = Factor::where('user_id', $User->id)->where('type', 'balance')->orderBy('id', 'DESC')->where('status', '<>', 'waiting')->paginate(10);
+
+        return view('user.accountant.index', compact('bankAccounts', 'withdraws', 'variz', $User));
     }
 
     public function payWithTrc20(Request $request)
@@ -372,7 +384,7 @@ class UserController extends Controller
         $postInput = [
             'api_key' => getValue('vendar_payment_key'),
             'amount' => $factor->price,
-            'callback_url' => env('BASE_URL')."/verifyRial"
+            'callback_url' => env('BASE_URL') . "/verifyRial"
         ];
         $response = Http::post($apiURL, $postInput);
 
@@ -401,10 +413,10 @@ class UserController extends Controller
         if ($request->image != null) {
             $imageName = time() . Str::random(5) . '.' . $request->image->extension();
             $request->image->move(public_path('uploads/transfer'), $imageName);
-            $factor->image=$imageName;
+            $factor->image = $imageName;
             $factor->save();
         }
-        return back()->with('msg','درخواست واریز ثبت شد و پس از تایید به حساب شما افزوده خواهد شد');
+        return back()->with('msg', 'درخواست واریز ثبت شد و پس از تایید به حساب شما افزوده خواهد شد');
     }
 
     public function verifyVendar(Request $request)
@@ -451,6 +463,145 @@ class UserController extends Controller
         }
     }
 
+
+    public function verifySubscriptionPurchase(Request $request)
+    {
+        global $User;
+        $user = User::find($User->id);
+        if ($request->get('payment_status ') == 'OK') {
+            $factor = Factor::where('payment_id', $request->get('token'))->first();
+            if ($factor) {
+                $apiURL = 'https://ipg.vandar.io/api/v3/transaction';
+                $postInput = [
+                    'api_key' => getValue('vendar_payment_key'),
+                    'token' => $factor->payment_id,
+                ];
+                $response = Http::post($apiURL, $postInput);
+                if (json_decode($response)->status == 1) {
+                    $apiURLVerify = 'https://ipg.vandar.io/api/v3/verify';
+                    $postInputVerify = [
+                        'api_key' => getValue('vendar_payment_key'),
+                        'token' => $factor->payment_id,
+                    ];
+                    $responseVerify = Http::post($apiURLVerify, $postInputVerify);
+                    if (json_decode($responseVerify)->status == 1) {
+                        $decodeResponse = json_decode($responseVerify);
+                        $factor->status = "paid";
+                        $factor->save();
+                        $subscription = UserPlan::where('user_id', $User->id)->first();
+                        $plan = SubscriptionPlan::find($factor->subscription_id);
+                        $subscription->expire_time = Carbon::now()->addDays($plan->duration);
+                        $subscription->plan_id = $plan->id;
+                        $subscription->factor_id = $factor->id;
+                        $subscription->save();
+                        Transaction::create(
+                            [
+                                "factor_id" => $factor->id,
+                                "status" => "1",
+                                "amount" => $decodeResponse->amount,
+                                "realAmount" => $decodeResponse->realAmount,
+                                "wage" => $decodeResponse->wage,
+                                "transId" => $decodeResponse->transId,
+                                "paymentDate" => $decodeResponse->paymentDate,
+                            ]
+                        );
+                    }
+
+                }
+            }
+        }
+    }
+
+    public function withdrawTether(Request $request)
+    {
+        global $User;
+        $withdraw = Withdraw::create(
+            [
+                "user_id" => $User->id,
+                "wallet" => $request->wallet,
+                "amount" => $request->amount,
+                "network" => $request->network,
+                "type" => 'tether',
+                "status" => 'new',
+            ]
+        );
+        return back()->with('withdraw', 'درخواست برداشت از حساب ثبت شد و پس از تایید به حساب شما واریز خواهد شد.');
+    }
+
+    public function withdrawRial(Request $request)
+    {
+        global $User;
+        $withdraw = Withdraw::create(
+            [
+                "user_id" => $User->id,
+                "card_id" => $request->card_id,
+                "amount" => $request->amount,
+                "type" => 'rial',
+                "status" => 'new',
+            ]
+        );
+        return back()->with('withdraw', 'درخواست برداشت از حساب ثبت شد و پس از تایید به حساب شما واریز خواهد شد.');
+    }
+
+    public function showSubscriptionPage()
+    {
+        $subscriptionPLan = SubscriptionPlan::all();
+        return view('user.subscription.index', compact('subscriptionPLan'));
+
+    }
+
+    public function buySubscriptionPlanByTether(Request $request)
+    {
+        global $User;
+        $subscription = SubscriptionPlan::find($request->subscription);
+        if ($request->direct == "پرداخت از طریق کارت بانکی") {
+            $factor = Factor::create([
+                "user_id" => $User->id,
+                "type" => 'subscription',
+                "subscription_id" => $request->subscription,
+                "price" => $subscription->price,
+                "status" => "waiting",
+                "description" => 'خرید طرح' . $subscription->title,
+                "mode" => 'rial',
+                "token" => Str::random(8) . Carbon::now()->timestamp,
+
+            ]);
+
+            $apiURL = 'https://ipg.vandar.io/api/v3/send';
+            $postInput = [
+                'api_key' => getValue('vendar_payment_key'),
+                'amount' => $factor->price,
+                'callback_url' => env('BASE_URL') . "/verifySubscription"
+            ];
+            $response = Http::post($apiURL, $postInput);
+
+            if (json_decode($response)->status == 0) {
+                return json_decode($response)->errors[0];
+            }
+            $factor->payment_id = json_decode($response)->token;
+            $factor->save();
+            return Redirect::to('https://ipg.vandar.io/v3/' . json_decode($response)->token);
+        } else if ($request->direct == "پرداخت با ارز دیجیتال") {
+            global $User;
+            $factor = Factor::create([
+                "user_id" => $User->id,
+                "type" => 'subscription',
+                "subscription_id" => $request->subscription,
+                "price" => $subscription->price,
+                "status" => "waiting",
+                "description" => 'خرید طرح' . $subscription->title,
+                "mode" => 'tether',
+                "token" => Str::random(8) . Carbon::now()->timestamp,
+
+            ]);
+            return Redirect::to($this->payByCrypto($factor, 'خرید ' . $subscription->title));
+
+        } else {
+            if ($User->activate_balance < $subscription->price) {
+                return back()->with('err', 'موجودی حساب کافی نمی باشد');
+            }
+        }
+    }
 
 
 }
